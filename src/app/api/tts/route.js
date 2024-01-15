@@ -2,7 +2,10 @@
 // https://learn.microsoft.com/en-us/azure/developer/javascript/tutorial/convert-text-to-speech-cognitive-services
 
 
-import sdk from 'microsoft-cognitiveservices-speech-sdk';
+// import sdk from 'microsoft-cognitiveservices-speech-sdk';
+import * as sdk from "microsoft-cognitiveservices-speech-sdk"
+import { put } from '@vercel/blob';
+
 import { Buffer } from 'buffer';
 import { PassThrough } from 'stream';
 import fs from 'fs';
@@ -19,9 +22,11 @@ const textToSpeech = async (key, region, text, filename)=> {
     
     // convert callback function to promise
     return new Promise((resolve, reject) => {
-        
+        console.log('00000000000000',key, region)
         const speechConfig = sdk.SpeechConfig.fromSubscription(key, region);
-        speechConfig.speechSynthesisOutputFormat = 5; // mp3
+        console.log(speechConfig,'speechConfig')
+        // speechConfig.speechSynthesisOutputFormat = 5; // mp3
+        // speechConfig.speechSynthesisVoiceName = "en-US-AndrewNeural";
         
         let audioConfig = null;
         
@@ -46,7 +51,6 @@ const textToSpeech = async (key, region, text, filename)=> {
                     resolve(audioFile);
                     
                 } else {
-                    
                     // return stream from memory
                     const bufferStream = new PassThrough();
                     bufferStream.end(Buffer.from(audioData));
@@ -64,14 +68,19 @@ const textToSpeech = async (key, region, text, filename)=> {
 // https://vercel.com/zhangolve/voice-words/stores/blob/store_AHXYVZntTmQx1RNq/guides
 
 
-const transform = async (word, text) => {
-    // const { text } = req.body;
+export async function POST(req) {
+    const reqBody = await req.json();
+    const { text,word } = reqBody;
     const key = process.env.AZURE_KEY;
     const region = process.env.AZURE_REGION;
     const filename = `${word}.mp3}`;
     const stream = await textToSpeech(key, region, text, filename);
-    res.setHeader('Content-Type', 'audio/mpeg');
-    stream.pipe(res);
+    // res.setHeader('Content-Type', 'audio/mpeg');
+    // stream.pipe(res);
+    const blob = await put(filename, stream, {
+        access: 'public',
+      });
+    return NextResponse.json(blob);
 }
 
 
@@ -79,5 +88,3 @@ const transform = async (word, text) => {
 
 // }
 
-
-export default transform;

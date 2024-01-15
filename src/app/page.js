@@ -2,6 +2,13 @@
 import { useEffect, useState } from 'react'
 
 
+const exampleJSON  = JSON.stringify({ "word": "acclimated",
+"pronunciation": "/əˈklaɪmətid/",
+"example": "The hikers acclimated to the high altitude gradually, allowing them to enjoy the mountain views without experiencing altitude sickness.",
+"translation": "这些徒步旅行者逐渐适应了高海拔，使他们能够在不出现高原反应的情况下欣赏山景。"});
+
+
+
 export default function Home() {
   const [word, setWord] = useState('')
   const [data, setData] = useState(null)
@@ -9,12 +16,13 @@ export default function Home() {
     if(!word) {
       return ;
     } 
+
     fetch('/api/translate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ userPrompt: `给出这个单词${word}的音标，给出一个英文例句和他的例句中文翻译，以json的形式返回` })
+      body: JSON.stringify({ userPrompt: `给出这个单词${word}的音标，给出一个英文例句和他的例句中文翻译，以json的形式返回,输出格式为 ${exampleJSON}`})
     })
       .then(res => res.json())
       .then(data => {
@@ -30,29 +38,34 @@ export default function Home() {
         try {
           const jsonObject = JSON.parse(jsonContent);
           console.log(jsonObject);
+          setData(jsonObject)
         } catch (error) {
           console.error('JSON解析出错：', error.message);
         }
 
-        console.log(data); setData(data.text.replace('`',''))
       })
       .catch(err => console.log(err))
-    // fetch('/api/tts', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({ text: 'Hello, my name is' })
-    // })
-      // .then(res => res.json())
-      // .then(data => console.log(data))
-      // .catch(err => console.log(err))
-  }, [word])  
+    
+  }, [word]) 
+  
+  const createTTS = () => {
+    fetch('/api/tts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ text: `${word}, ${word}, ${data.example}, ${data.translation}`, word })
+        })
+          .then(res => res.json())
+          .then(data => console.log(data))
+          .catch(err => console.log(err))
+  }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       hello world
-      <input onChange={(e)=>setWord(e.target.value)}/>
-      {data?.text}
+      <input onChange={(e)=>setWord(e.target.value)} className=''/>
+      {data?.example}
+      {data?.example && <button onClick={createTTS}>create tts</button>}
     </main>
   )
 }
