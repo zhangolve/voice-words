@@ -1,4 +1,6 @@
 // npm install microsoft-cognitiveservices-speech-sdk
+// https://learn.microsoft.com/en-us/azure/developer/javascript/tutorial/convert-text-to-speech-cognitive-services
+
 
 import sdk from 'microsoft-cognitiveservices-speech-sdk';
 import { Buffer } from 'buffer';
@@ -60,3 +62,22 @@ const textToSpeech = async (key, region, text, filename)=> {
 
 
 // https://vercel.com/zhangolve/voice-words/stores/blob/store_AHXYVZntTmQx1RNq/guides
+
+
+const transform = async (word, text) => {
+    // const { text } = req.body;
+    const key = process.env.AZURE_KEY;
+    const region = process.env.AZURE_REGION;
+    const filename = `${word}.mp3}`;
+    const stream = await textToSpeech(key, region, text, filename);
+    res.setHeader('Content-Type', 'audio/mpeg');
+    stream.pipe(res);
+}
+
+
+// const migrate = async () => {
+
+// }
+
+
+export default transform;
