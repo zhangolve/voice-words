@@ -4,11 +4,14 @@
 
 // import sdk from 'microsoft-cognitiveservices-speech-sdk';
 import * as sdk from "microsoft-cognitiveservices-speech-sdk"
-import { put } from '@vercel/blob';
+// import { put } from '@vercel/blob'; little storage
+
+import { NextRequest, NextResponse } from "next/server";
 
 import { Buffer } from 'buffer';
 import { PassThrough } from 'stream';
 import fs from 'fs';
+import bucket from './bucket';
 
 /**
  * Node.js server code to convert text to speech
@@ -73,13 +76,20 @@ export async function POST(req) {
     const { text,word } = reqBody;
     const key = process.env.AZURE_KEY;
     const region = process.env.AZURE_REGION;
-    const filename = `${word}.mp3}`;
+    const filename = `temp/${word}.mp3`;
     const stream = await textToSpeech(key, region, text, filename);
     // res.setHeader('Content-Type', 'audio/mpeg');
     // stream.pipe(res);
-    const blob = await put(filename, stream, {
-        access: 'public',
-      });
+    // const blob = await put(filename, stream, {
+    //     access: 'public',
+    //   });
+
+    // const blob = await bucket.put(filename, stream, {
+    //     access: 'public',
+    //   });
+    console.log(await bucket.exists(),'bucket exist');
+    const blob = await bucket.uploadFile(filename, filename);
+    console.log(blob);
     return NextResponse.json(blob);
 }
 

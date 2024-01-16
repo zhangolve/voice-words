@@ -12,10 +12,13 @@ const exampleJSON  = JSON.stringify({ "word": "acclimated",
 export default function Home() {
   const [word, setWord] = useState('')
   const [data, setData] = useState(null)
-  useEffect(() => {
+  const [blob, setBlob] = useState(null)
+  const submit = () => {
     if(!word) {
       return ;
     } 
+
+    // 
 
     fetch('/api/translate', {
       method: 'POST',
@@ -45,8 +48,7 @@ export default function Home() {
 
       })
       .catch(err => console.log(err))
-    
-  }, [word]) 
+  }
   
   const createTTS = () => {
     fetch('/api/tts', {
@@ -57,15 +59,20 @@ export default function Home() {
           body: JSON.stringify({ text: `${word}, ${word}, ${data.example}, ${data.translation}`, word })
         })
           .then(res => res.json())
-          .then(data => console.log(data))
+          .then(data => {console.log(data);setBlob(data)})
           .catch(err => console.log(err))
   }
+  console.log(blob,'blob')
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       hello world
-      <input onChange={(e)=>setWord(e.target.value)} className=''/>
+      <input onChange={(e)=> {  
+          // debounce 
+        setWord(e.target.value)
+      }} className=''/> <button onClick={submit} className='submit'>submit</button>
       {data?.example}
       {data?.example && <button onClick={createTTS}>create tts</button>}
+      {blob && <audio src={blob.publicUrl} controls></audio>}
     </main>
   )
 }
