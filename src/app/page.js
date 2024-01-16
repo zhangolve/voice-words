@@ -72,7 +72,7 @@ export default function Home() {
       }} className=''/> <button onClick={submit} className='submit'>submit</button>
       {data?.example}
       {data?.example && <button onClick={createTTS}>create tts</button>}
-      {blob && <audio src={blob.publicUrl} controls></audio>}
+      {blob && <audio src={`https://r2.hktkdy.com/${blob.objectKey}`} controls></audio>}
     </main>
   )
 }

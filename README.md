@@ -41,3 +41,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - support custom sentence 
 - support bulk upload 
 - --experimental-https
+
+- https://github.com/f2face/cloudflare-r2

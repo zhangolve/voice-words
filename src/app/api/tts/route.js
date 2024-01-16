@@ -76,19 +76,11 @@ export async function POST(req) {
     const { text,word } = reqBody;
     const key = process.env.AZURE_KEY;
     const region = process.env.AZURE_REGION;
-    const filename = `temp/${word}.mp3`;
-    const stream = await textToSpeech(key, region, text, filename);
-    // res.setHeader('Content-Type', 'audio/mpeg');
-    // stream.pipe(res);
-    // const blob = await put(filename, stream, {
-    //     access: 'public',
-    //   });
-
-    // const blob = await bucket.put(filename, stream, {
-    //     access: 'public',
-    //   });
+    const fileName = `${word}.mp3`;
+    const filePath = process.env.VERCEL_ENV !== 'development'? `/tmp/${fileName}`:`temp/${fileName}` ;
+    await textToSpeech(key, region, text, filePath);
     console.log(await bucket.exists(),'bucket exist');
-    const blob = await bucket.uploadFile(filename, filename);
+    const blob = await bucket.uploadFile(filePath, fileName, undefined ,"audio/mpeg");
     console.log(blob);
     return NextResponse.json(blob);
 }
