@@ -1,7 +1,6 @@
 "use client"
 import { useEffect, useState } from 'react'
 
-
 const exampleJSON  = JSON.stringify({ "word": "acclimated",
 "pronunciation": "/əˈklaɪmətid/",
 "example": "The hikers acclimated to the high altitude gradually, allowing them to enjoy the mountain views without experiencing altitude sickness.",
@@ -13,12 +12,12 @@ export default function Home() {
   const [word, setWord] = useState('')
   const [data, setData] = useState(null)
   const [blob, setBlob] = useState(null)
+
+
   const submit = () => {
     if(!word) {
       return ;
     } 
-
-    // 
 
     fetch('/api/translate', {
       method: 'POST',
@@ -72,7 +71,8 @@ export default function Home() {
       }} className=''/> <button onClick={submit} className='submit'>submit</button>
       {data?.example}
       {data?.example && <button onClick={createTTS}>create tts</button>}
-      {blob && <audio src={`https://r2.hktkdy.com/${blob.objectKey}`} controls></audio>}
+      {blob && <audio src={`${blob.publicUrl}`} controls></audio>}
+      {/* {audio && <audio src={audio} controls></audio>} */}
     </main>
   )
 }

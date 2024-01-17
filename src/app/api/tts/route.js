@@ -25,11 +25,9 @@ const textToSpeech = async (key, region, text, filename)=> {
     
     // convert callback function to promise
     return new Promise((resolve, reject) => {
-        console.log('00000000000000',key, region)
         const speechConfig = sdk.SpeechConfig.fromSubscription(key, region);
-        console.log(speechConfig,'speechConfig')
-        // speechConfig.speechSynthesisOutputFormat = 5; // mp3
-        // speechConfig.speechSynthesisVoiceName = "en-US-AndrewNeural";
+        speechConfig.speechSynthesisOutputFormat = 5; // mp3
+        speechConfig.speechSynthesisVoiceName = "zh-CN-XiaochenNeural";
         
         let audioConfig = null;
         
@@ -54,7 +52,6 @@ const textToSpeech = async (key, region, text, filename)=> {
                     resolve(audioFile);
                     
                 } else {
-                    // return stream from memory
                     const bufferStream = new PassThrough();
                     bufferStream.end(Buffer.from(audioData));
                     resolve(bufferStream);
@@ -67,8 +64,6 @@ const textToSpeech = async (key, region, text, filename)=> {
     });
 };
 
-
-// https://vercel.com/zhangolve/voice-words/stores/blob/store_AHXYVZntTmQx1RNq/guides
 
 
 export async function POST(req) {
@@ -85,8 +80,4 @@ export async function POST(req) {
     return NextResponse.json(blob);
 }
 
-
-// const migrate = async () => {
-
-// }
 
