@@ -25,3 +25,11 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.review {
+  width: 50rem;
+  .card {
+    height: 20rem;
+    width: 50rem;
+  }
+}

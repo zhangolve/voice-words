@@ -5,7 +5,7 @@ const session = await kv.get("user_1_session");
 
 
 // 艾宾浩斯记忆法 1,2,4,7,15,30,60,120,240,480,960
-// period type = [1,2,4,7,15,30,60,120,240,480,960]
+
 
 // {word: 'apple', translations: ['苹果'], note: '',dueDate: '',sentence: 'This is a apple.', period: 1, audio: 'name'}
 
