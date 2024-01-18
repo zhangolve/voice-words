@@ -47,8 +47,12 @@ const Review = () => {
             {currentWord &&
             <div className='review'>
                 <ReviewCard word={currentWord} key={currentWord.word}/>
+                <audio src={`https://r2.hktkdy.com/${currentWord.audio}`} controls></audio>
                 <Buttons {...{onRetry,onGood, onMaster}}/>
             </div>
+            }
+            {
+                !currentWord && <div>no more words</div>
             }
             </main>
     )

@@ -32,4 +32,8 @@ body {
     height: 20rem;
     width: 50rem;
   }
+  audio {
+    width: 100%;
+  }
 }
+
