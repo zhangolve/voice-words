@@ -56,3 +56,10 @@ https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/apps/nextjs-app/app/Home.tsx
 还是使用docker吧，实际只有一个有效的final.mp3文件，其他的都是临时文件，可以删除。
 
 //是不是应该有一个单词数量限制，一次生成太多单词，会导致生成时间过长，也可能会有一些潜在的问题吧，比如占用资源比较多。另外，如何更快地利用数据也是一个问题。每一个audio也许都有默认值和自定义值。默认值其实是通用的。
+
+search page / update page 都用到了同一个方法。。
+
+当前word/flashcard 的状态管理。。考虑引入 https://jotai.org/docs/core/atom
+https://swr.vercel.app/zh-CN/examples/subscription
+
+

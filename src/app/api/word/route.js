@@ -2,20 +2,25 @@ import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 
 async function createNewTts(query) {
-    const res = await fetch(process.env.URL +'/api/translate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ userPrompt: `翻译这个句子为中文：${query.sentence}`})
-        })
-        const data = await res.json();  
+    let translation = query.translation;
+    if(!translation) { 
+        const res = await fetch(process.env.URL +'/api/translate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userPrompt: `翻译这个句子为中文：${query.sentence}`})
+            })
+            const data = await res.json();
+            translation = data.text;
+    }  
+    console.log(`${query.word}, ${query.word}, ${query.sentence}, ${translation}`,'9999999')
         const ttsRes = await fetch(process.env.URL +'/api/tts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ text: `${query.word}, ${query.word}, ${query.sentence}, ${data.text}`, word:query.word })
+        body: JSON.stringify({ text: `${query.word}, ${query.word}, ${query.sentence}, ${translation}`, word:query.word })
         })  
         const ttsData = await ttsRes.json();
         console.log('finish')

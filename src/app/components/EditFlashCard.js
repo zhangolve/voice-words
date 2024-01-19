@@ -1,16 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useCreateWordExample, formatData } from '../utils';
 
 const Modal = ({ isOpen, onClose, flashcard, onSave }) => {
-    const [content, setContent] = useState(flashcard);
+    const [isCreating, setIsCreating] = useState(false);
+    const { data, error, isLoading } = useCreateWordExample(flashcard.word, isCreating);
 
+    const [content, setContent] = useState(flashcard);
     const handleSave = () => {
         onSave({ ...flashcard, ...content });
         onClose();
     };
 
+    const onCreate = ()=> {
+        setIsCreating(true)
+    }
+
+    useEffect(()=>{
+        if(data?.text) {
+            const rurrentContent = formatData(data)
+            console.log(rurrentContent,'cr')
+            setContent({...rurrentContent,translations: [rurrentContent.translation_word]})
+        }
+    }, [data])
+
+
     if (!isOpen) {
         return null;
     }
+
 
     return (
         <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -47,7 +64,7 @@ const Modal = ({ isOpen, onClose, flashcard, onSave }) => {
                         <button type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onClick={onClose}>
                             Cancel
                         </button>
-                        <button type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onClick={onClose}>
+                        <button type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onClick={onCreate}>
                             Recreate example sentence
                         </button>
                     </div>
