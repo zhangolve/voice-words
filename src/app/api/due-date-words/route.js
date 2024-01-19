@@ -35,5 +35,4 @@ export async function PUT(req) {
     console.log(error,'error')
     return NextResponse.json({ error }, { status: 500 });
   }
-
 }

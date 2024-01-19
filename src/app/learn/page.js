@@ -7,18 +7,40 @@ import {good, retry, master} from './utils'
 const Review = () => {
     const [words, setWords] = useState([])
     const [currentWord, setCurrentWord] = useState()
-    useEffect(()=>{
+
+    
+    const fetchNewData = ()=> {
         fetch('/api/due-date-words', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        })
-        .then(res => res.json())
-        .then(data => {
-            setWords(data.result)
-        })
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            })
+            .then(res => res.json())
+            .then(data => {
+                setWords(data.result)
+            })
         .catch(err => console.log(err))
+    }
+
+    const onSave = (word) => {
+        fetch('/api/word', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(word)
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data)
+            fetchNewData();
+          })
+          .catch(err => console.log(err))
+    }
+
+    useEffect(()=>{
+        fetchNewData();
     }, [])
 
     useEffect(()=>{
@@ -44,7 +66,7 @@ const Review = () => {
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
             {currentWord &&
             <div className='review'>
-                <ReviewCard word={currentWord} key={currentWord.word}/>
+                <ReviewCard word={currentWord} key={currentWord.word} onSave={onSave} />
                 {/* <audio src={`${process.env.R2_DOMAIN}/${currentWord.audio}`} controls></audio> */}
                 <Buttons {...{onRetry,onGood, onMaster}}/>
             </div>

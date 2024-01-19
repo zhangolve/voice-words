@@ -23,22 +23,6 @@ export async function GET() {
         const query = formatData[i];
         const result = await sql`select due_date from words where word = ${query.word} LIMIT 1;`;
         if(!result.rows[0].due_date) {
-          // const res = await fetch(process.env.URL +'/api/translate', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json'
-          //   },
-          //   body: JSON.stringify({ userPrompt: `翻译这个句子为中文：${query.sentence}`})
-          // })
-          // const data = await res.json();  
-          // const ttsRes = await fetch(process.env.URL +'/api/tts', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json'
-          //   },
-          //   body: JSON.stringify({ text: `${query.word}, ${query.word}, ${query.sentence}, ${data.text}`, word:query.word })
-          // })  
-          // const ttsData = await ttsRes.json();
           await sql`UPDATE words SET due_date = ${query.dueDate} WHERE word = ${query.word};`;
         }        
       }
