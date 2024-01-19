@@ -37,3 +37,7 @@ body {
   }
 }
 
+
+.relative {
+  position: relative;
+}

@@ -39,7 +39,6 @@ export default function Search() {
         // 解析JSON
         try {
           const jsonObject = JSON.parse(jsonContent);
-          console.log(jsonObject);
           setData(jsonObject)
         } catch (error) {
           console.error('JSON解析出错：', error.message);
@@ -58,7 +57,7 @@ export default function Search() {
           body: JSON.stringify({ text: `${word}, ${word}, ${data.example}, ${data.translation}`, word })
         })
           .then(res => res.json())
-          .then(data => {console.log(data);setBlob(data)})
+          .then(data => {setBlob(data)})
           .catch(err => console.log(err))
   }
   return (

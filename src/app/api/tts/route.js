@@ -74,9 +74,7 @@ export async function POST(req) {
     const fileName = `${word}.mp3`;
     const filePath = process.env.VERCEL_ENV !== 'development'? `/tmp/${fileName}`:`temp/${fileName}` ;
     await textToSpeech(key, region, text, filePath);
-    console.log(await bucket.exists(),'bucket exist');
     const blob = await bucket.uploadFile(filePath, fileName, undefined ,"audio/mpeg");
-    console.log(blob);
     return NextResponse.json(blob);
 }
 

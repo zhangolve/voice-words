@@ -22,7 +22,6 @@ export async function GET() {
       for(var i = 0; i < formatData.length; i++) {
         const query = formatData[i];
         const result = await sql`select due_date from words where word = ${query.word} LIMIT 1;`;
-        console.log(query.dueDate,'due date')
         if(!result.rows[0].due_date) {
           // const res = await fetch(process.env.URL +'/api/translate', {
           //   method: 'POST',

@@ -16,7 +16,6 @@ const Review = () => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             setWords(data.result)
         })
         .catch(err => console.log(err))
@@ -28,7 +27,6 @@ const Review = () => {
 
     const onRetry = async () => {
         await retry(currentWord.word);
-        console.log('09999')
         setWords(words.slice(1))
     }
 
@@ -47,7 +45,7 @@ const Review = () => {
             {currentWord &&
             <div className='review'>
                 <ReviewCard word={currentWord} key={currentWord.word}/>
-                <audio src={`https://r2.hktkdy.com/${currentWord.audio}`} controls></audio>
+                {/* <audio src={`${process.env.R2_DOMAIN}/${currentWord.audio}`} controls></audio> */}
                 <Buttons {...{onRetry,onGood, onMaster}}/>
             </div>
             }
