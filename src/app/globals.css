@@ -28,10 +28,7 @@ body {
 
 .review {
   width: 50rem;
-  .card {
-    height: 20rem;
-    width: 50rem;
-  }
+  height: 20rem;
   audio {
     width: 100%;
   }
