@@ -67,6 +67,6 @@ audio upload
 
 词组的处理
 
-
+删除过期的audio，如果新生成了audio。。
 
 

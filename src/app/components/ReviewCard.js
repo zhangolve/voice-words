@@ -40,7 +40,7 @@ const Card = ({ word, onSave }) => {
           <AiFillAudio onClick={playAudio}/>
         </div>
       </div>
-      <EditFlashCard flashcard={word} isOpen={isOpen} onClose={()=>setIsOpen(false)} onSave={onSave}/>
+      <EditFlashCard flashcard={word} key={word.word} isOpen={isOpen} onClose={()=>setIsOpen(false)} onSave={onSave}/>
     </div>
   );
 };
