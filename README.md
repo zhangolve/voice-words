@@ -62,4 +62,11 @@ search page / update page 都用到了同一个方法。。
 当前word/flashcard 的状态管理。。考虑引入 https://jotai.org/docs/core/atom
 https://swr.vercel.app/zh-CN/examples/subscription
 
+telegram bot 
+audio upload 
+
+词组的处理
+
+
+
 

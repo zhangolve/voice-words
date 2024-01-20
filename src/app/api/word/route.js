@@ -61,7 +61,7 @@ export async function POST(req) {
     const { word, sentence, note, translations, audio} = reqBody;
     const due_date = +new Date();
     try {
-        await sql`insert into words (word, sentence, note, translations, audio, due_date) values (${word}, ${sentence}, ${note}, ${translations}, ${audio},${due_date})`;
+        await sql`insert into words (word, sentence, note, translations, audio, due_date，period) values (${word}, ${sentence}, ${note}, ${translations}, ${audio},${due_date}, 1)`;
         return NextResponse.json({ result:'ok'}, { status: 200 })
     }
     catch (error) {

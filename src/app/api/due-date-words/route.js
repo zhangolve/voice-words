@@ -26,9 +26,9 @@ export async function GET() {
 
 export async function PUT(req) {
   const reqBody = await req.json();
-  const { word, due_date } = reqBody;
+  const { word, due_date, period } = reqBody;
   try {
-      await sql`update words set due_date=${due_date} where word = ${word} `;
+      await sql`update words set due_date=${due_date}, period=${period} where word = ${word} `;
       return NextResponse.json({ result:due_date}, { status: 200 })
   }
   catch (error) {
