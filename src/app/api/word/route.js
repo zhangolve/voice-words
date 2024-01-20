@@ -27,6 +27,18 @@ async function createNewTts(query) {
         await sql`UPDATE words SET audio = ${ttsData.objectKey} WHERE word = ${query.word};`;
 }
 
+
+export async function GET() {
+    try {
+        const words = await sql`select * from words`;
+        return NextResponse.json(words, { status: 200 })
+    }
+    catch (error) {
+      console.log(error,'error')
+      return NextResponse.json({ error }, { status: 500 });
+    }
+}
+
 export async function PUT(req) {
     const reqBody = await req.json();
     // 是否可以修改word
@@ -34,6 +46,22 @@ export async function PUT(req) {
     try {
         await sql`update words set sentence=${sentence}, note=${note}, translations=${translations}, audio=null where word = ${word} `;
         createNewTts(reqBody);
+        return NextResponse.json({ result:'ok'}, { status: 200 })
+    }
+    catch (error) {
+      console.log(error,'error')
+      return NextResponse.json({ error }, { status: 500 });
+    }
+}
+
+
+export async function POST(req) {
+    const reqBody = await req.json();
+    // 是否可以修改word
+    const { word, sentence, note, translations, audio} = reqBody;
+    const due_date = +new Date();
+    try {
+        await sql`insert into words (word, sentence, note, translations, audio, due_date) values (${word}, ${sentence}, ${note}, ${translations}, ${audio},${due_date})`;
         return NextResponse.json({ result:'ok'}, { status: 200 })
     }
     catch (error) {

@@ -36,7 +36,7 @@ const textToSpeech = async (key, region, text, filename)=> {
         }
         
         const synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig);
-
+        console.log('text,iiiii',text)
         synthesizer.speakTextAsync(
             text,
             result => {
@@ -49,6 +49,7 @@ const textToSpeech = async (key, region, text, filename)=> {
                     
                     // return stream from file
                     const audioFile = fs.createReadStream(filename);
+                    console.log('13333')
                     resolve(audioFile);
                     
                 } else {
@@ -58,12 +59,12 @@ const textToSpeech = async (key, region, text, filename)=> {
                 }
             },
             error => {
+                console.log(error,'error');
                 synthesizer.close();
                 reject(error);
             }); 
     });
 };
-
 
 
 export async function POST(req) {

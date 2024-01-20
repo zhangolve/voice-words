@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useCreateWordExample, formatData } from '../utils';
 
 const Modal = ({ isOpen, onClose, flashcard, onSave }) => {
-    const [isCreating, setIsCreating] = useState(false);
-    const { data, error, isLoading } = useCreateWordExample(flashcard.word, isCreating);
+    const { data, error, isLoading, setShouldFetch } = useCreateWordExample(flashcard.word);
 
     const [content, setContent] = useState(flashcard);
     const handleSave = () => {
@@ -12,13 +11,12 @@ const Modal = ({ isOpen, onClose, flashcard, onSave }) => {
     };
 
     const onCreate = ()=> {
-        setIsCreating(true)
+        setShouldFetch(true)
     }
 
     useEffect(()=>{
         if(data?.text) {
-            const rurrentContent = formatData(data)
-            console.log(rurrentContent,'cr')
+            const rurrentContent = formatData(data) || {}
             setContent({...rurrentContent,translations: [rurrentContent.translation_word]})
         }
     }, [data])

@@ -26,8 +26,8 @@ export const formatData = (data)=> {
   }
 }
 
-export const useCreateWordExample = (word, shouldFetch) => {
-  // const [currentData, setCurrentData] = useState(null);
+export const useCreateWordExample = (word) => {
+  const [shouldFetch, setShouldFetch] = useState(false);
   const { data, error, isLoading } = useSWR(shouldFetch ? {
     url: '/api/translate',
     method: 'POST',
@@ -40,6 +40,8 @@ export const useCreateWordExample = (word, shouldFetch) => {
         data,
         isLoading,
         error,
+        shouldFetch, 
+        setShouldFetch
     };
 };
 
