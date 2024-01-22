@@ -60,8 +60,10 @@ export async function POST(req) {
     // 是否可以修改word
     const { word, sentence, note, translations, audio} = reqBody;
     const due_date = +new Date();
+    console.log(`insert into words (word, sentence, note, translations, audio, due_date, period) VALUES (${word}, ${sentence}, ${note}, ${translations}, ${audio}, ${due_date}, 1)`)
     try {
-        await sql`insert into words (word, sentence, note, translations, audio, due_date，period) values (${word}, ${sentence}, ${note}, ${translations}, ${audio},${due_date}, 1)`;
+        await sql`insert into words (word, sentence, note, translations, audio, Due_date, Period) VALUES (${word}, ${sentence}, ${note}, ${translations}, ${audio}, ${due_date}, 1)`;
+        await sql``
         return NextResponse.json({ result:'ok'}, { status: 200 })
     }
     catch (error) {

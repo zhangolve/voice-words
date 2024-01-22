@@ -47,7 +47,7 @@ export default function Search() {
 
   const submitSave =()=> {
       fetch('/api/word', {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },

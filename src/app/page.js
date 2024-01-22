@@ -32,7 +32,7 @@ export default function Home() {
           </>
           )
         }
-        {count === 0 &&
+        {count == 0 &&
         (
           <>
             <div>You have no flashcards due to review.</div>
