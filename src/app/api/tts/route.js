@@ -36,7 +36,6 @@ const textToSpeech = async (key, region, text, filename)=> {
         }
         
         const synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig);
-        console.log('text,iiiii',text)
         synthesizer.speakTextAsync(
             text,
             result => {
@@ -49,7 +48,6 @@ const textToSpeech = async (key, region, text, filename)=> {
                     
                     // return stream from file
                     const audioFile = fs.createReadStream(filename);
-                    console.log('13333')
                     resolve(audioFile);
                     
                 } else {
@@ -59,7 +57,6 @@ const textToSpeech = async (key, region, text, filename)=> {
                 }
             },
             error => {
-                console.log(error,'error');
                 synthesizer.close();
                 reject(error);
             }); 
@@ -73,7 +70,7 @@ export async function POST(req) {
     const key = process.env.AZURE_KEY;
     const region = process.env.AZURE_REGION;
     const now = +new Date();
-    const fileName = `${word}-${now}.mp3`;
+    const fileName = `${word.replace(' ','_')}-${now}.mp3`;
     const filePath = process.env.VERCEL_ENV !== 'development'? `/tmp/${fileName}`:`temp/${fileName}` ;
     await textToSpeech(key, region, text, filePath);
     const blob = await bucket.uploadFile(filePath, fileName, undefined ,"audio/mpeg");

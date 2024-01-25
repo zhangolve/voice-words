@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const fetcher = (args) => fetch(args.url, args).then((res) => res.json());
 
-const exampleJSON  = JSON.stringify({ "word": "acclimated",
+export const exampleJSON  = JSON.stringify({ "word": "acclimated",
 "pronunciation": "/əˈklaɪmətid/",
 "translation_word": "适应",
 "sentence": "The hikers acclimated to the high altitude gradually, allowing them to enjoy the mountain views without experiencing altitude sickness.",

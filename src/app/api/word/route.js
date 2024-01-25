@@ -14,7 +14,6 @@ async function createNewTts(query) {
             const data = await res.json();
             translation = data.text;
     }  
-    console.log(`${query.word}, ${query.word}, ${query.sentence}, ${translation}`,'9999999')
         const ttsRes = await fetch(process.env.URL +'/api/tts', {
         method: 'POST',
         headers: {
@@ -23,15 +22,21 @@ async function createNewTts(query) {
         body: JSON.stringify({ text: `${query.word}, ${query.word}, ${query.sentence}, ${translation}`, word:query.word })
         })  
         const ttsData = await ttsRes.json();
-        console.log('finish')
         await sql`UPDATE words SET audio = ${ttsData.objectKey} WHERE word = ${query.word};`;
 }
 
 
-export async function GET() {
+export async function GET(req) {
     try {
-        const words = await sql`select * from words`;
-        return NextResponse.json(words, { status: 200 })
+        const { word:sqlWord } = Object.fromEntries(req.nextUrl.searchParams);
+        if (sqlWord) {
+            const word = await sql`select * from words where word = ${sqlWord}`;
+            return NextResponse.json({word: word.rows[0]}, { status: 200 })
+        } else {        
+            const words = await sql`select * from words`;
+            return NextResponse.json(words, { status: 200 })
+        }
+        
     }
     catch (error) {
       console.log(error,'error')
@@ -60,7 +65,6 @@ export async function POST(req) {
     // 是否可以修改word
     const { word, sentence, note, translations, audio} = reqBody;
     const due_date = +new Date();
-    console.log(`insert into words (word, sentence, note, translations, audio, due_date, period) VALUES (${word}, ${sentence}, ${note}, ${translations}, ${audio}, ${due_date}, 1)`)
     try {
         await sql`insert into words (word, sentence, note, translations, audio, Due_date, Period) VALUES (${word}, ${sentence}, ${note}, ${translations}, ${audio}, ${due_date}, 1)`;
         await sql``

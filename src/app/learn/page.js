@@ -32,7 +32,6 @@ const Review = () => {
         })
           .then(res => res.json())
           .then(data => {
-            console.log(data)
             fetchNewData();
           })
           .catch(err => console.log(err))

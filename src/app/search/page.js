@@ -6,8 +6,8 @@ import ReviewCard from '../components/ReviewCard';
 
 export default function Search() {
   const [word, setWord] = useState('')
+
   const [data, setData] = useState(null)
-  const [blob, setBlob] = useState(null)
   const { data: example, error, isLoading, setShouldFetch } = useCreateWordExample(word);
 
 
@@ -15,7 +15,16 @@ export default function Search() {
     if(!word) {
       return ;
     } 
-    setShouldFetch(true)
+    fetch(`/api/word?word=${word}`)
+      .then(res => res.json())
+      .then(data => {
+        if(data?.word) {
+          setData(data.word)
+        } else {
+          setShouldFetch(true)
+        }
+      })
+      .catch(err => console.log(err))
   }
   
   useEffect(()=>{
@@ -28,17 +37,16 @@ export default function Search() {
         body: JSON.stringify({ text: `${data.word}, ${data.word}, ${data.sentence}, ${data.translation}`, word:data.word })
       })
         .then(res => res.json())
-        .then(data => {setBlob(data)})
+        .then(ttsData => {setData({...data, audio: ttsData.objectKey})})
         .catch(err => console.log(err))
     }
 
     if(data?.word) {
       createTTS()
     }
-  }, [data])
+  }, [data?.sentence])
   
   useEffect(()=>{
-      console.log(example,'example')
       if(example?.text) {
           const rurrentContent = formatData(example) || {}
           setData({...rurrentContent,translations: [rurrentContent.translation_word]})
@@ -46,12 +54,13 @@ export default function Search() {
     }, [example])
 
   const submitSave =()=> {
+      const method = data?.id ? 'PUT' : 'POST';
       fetch('/api/word', {
-        method: 'POST',
+        method,
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ audio:blob.objectKey, ...data})
+        body: JSON.stringify(data)
       })
         .then(res => res.json())
         .then(data => {
@@ -73,7 +82,6 @@ export default function Search() {
         {
           data && <ReviewCard word={data} onSave={submitSave}/>
         }
-        {blob && <button onClick={submitSave} className="mr-2 md:mr-3 flex flex-col flex-1 cursor-pointer justify-center py-2 text-xs font-semibold leading-none text-white bg-blue-300 hover:bg-blue-400">save</button>}
       </div>
     </main>
   )
