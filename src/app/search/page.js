@@ -1,32 +1,35 @@
 "use client"
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useCreateWordExample, formatData } from '../utils';
 import SearchBar from './SearchInput';
-import ReviewCard from '../components/ReviewCard';
+import ReviewCard from '@/components/ReviewCard';
+import { useMySWR } from "@/utils";
 
 export default function Search() {
   const [word, setWord] = useState('')
-
+  const inputRef = useRef(null)
   const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(false)
   const { data: example, error, isLoading, setShouldFetch } = useCreateWordExample(word);
-
-
-  const submit = (word) => {
-    if(!word) {
-      return ;
-    } 
-    fetch(`/api/word?word=${word}`)
-      .then(res => res.json())
-      .then(data => {
-        if(data?.word) {
-          setData(data.word)
-        } else {
-          setShouldFetch(true)
-        }
-      })
-      .catch(err => console.log(err))
-  }
+  const {data: wordData, error: wordError, isLoading: wordIsLoading} = useMySWR(word ? `/api/word?word=${word}`: null)
   
+  useEffect(()=>{
+    if(data) {
+      setLoading(false)
+    }
+  }, [data])
+
+  useEffect(()=>{
+    if(word) {
+      if(wordData?.word) {
+        setData(wordData)
+      } else {
+        setShouldFetch(true)
+      }
+    }
+  }, [word, wordData?.word])
+
+
   useEffect(()=>{
     const createTTS = () => {
       fetch('/api/tts', {
@@ -68,19 +71,25 @@ export default function Search() {
         })
         .catch(err => console.log(err))
   }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-8">
       <div>
-        <SearchBar search={word} handleSearch={
+        <SearchBar handleSearch={
           (e) => {
             e.preventDefault();
-            submit(word);
+            const currentWord = inputRef.current.value;
+
+            if(currentWord) {
+              setWord(currentWord);
+              setLoading(true)
+            }
           }
         }
-        setSearch={setWord}
+        inputRef={inputRef}
         />
         {
-          data && <ReviewCard word={data} onSave={submitSave}/>
+          (data || (loading)) && <ReviewCard word={data} onSave={submitSave} />
         }
       </div>
     </main>
