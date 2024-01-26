@@ -1,26 +1,20 @@
 "use client"
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-
-
+import useSWR from "swr";
+import { fetcher } from './utils'
+import Loading from './components/Loading'
 
 export default function Home() {
-  const [count, setCount] = useState(0)
   const router = useRouter()
+  const { data, error, isLoading } = useSWR({url: `/api/due-date-count`}, fetcher);
 
-  useEffect(()=>{
-    fetch('/api/due-date-count', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setCount(data.result)
-      })
-      .catch(err => console.log(err))
-  })
+
+  if(isLoading) {
+    return <Loading />
+  }
+
+  const count = data?.result || 0;
+
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { useState } from "react";
 
-const fetcher = (args) => fetch(args.url, args).then((res) => res.json());
+export const fetcher = (args) => fetch(args.url, args).then((res) => res.json());
 
 export const exampleJSON  = JSON.stringify({ "word": "acclimated",
 "pronunciation": "/əˈklaɪmətid/",
