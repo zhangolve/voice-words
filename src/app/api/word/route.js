@@ -46,8 +46,8 @@ export async function GET(req) {
 
 export async function PUT(req) {
     const reqBody = await req.json();
-    // 是否可以修改word
-    const { word, sentence, note, translations} = reqBody;
+    const { word: rawWord, sentence, note, translations} = reqBody;
+    const word = rawWord.trim();
     try {
         await sql`update words set sentence=${sentence}, note=${note}, translations=${translations}, audio=null where word = ${word} `;
         createNewTts(reqBody);
@@ -63,7 +63,8 @@ export async function PUT(req) {
 export async function POST(req) {
     const reqBody = await req.json();
     // 是否可以修改word
-    const { word, sentence, note, translations, audio} = reqBody;
+    const { word: rawWord, sentence, note, translations, audio} = reqBody;
+    const word = rawWord.trim();
     const due_date = +new Date();
     try {
         await sql`insert into words (word, sentence, note, translations, audio, Due_date, Period) VALUES (${word}, ${sentence}, ${note}, ${translations}, ${audio}, ${due_date}, 1)`;
