@@ -2,7 +2,6 @@ import { sql } from '@vercel/postgres';
 import { NextResponse } from 'next/server';
 import rawData from './result.json'
 import fs from 'fs';
-// import { exampleJSON } from '../../utils'
 
 const exampleJSON  = JSON.stringify({ "word": "acclimated",
 "pronunciation": "ə'klaɪmətid",

@@ -36,7 +36,7 @@ export const useCreateWordExample = (word) => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ userPrompt: `给出这个单词${word}的音标，中文翻译，给出一个英文例句和他的例句中文翻译，以json的形式返回,输出格式为 ${exampleJSON}`})
+    body: JSON.stringify({ userPrompt: `给出这个单词或短语${word}的音标，中文翻译，给出一个英文例句和他的例句中文翻译，以json的形式返回,输出格式为 ${exampleJSON}`})
   }: null, fetcher);
     return {
         data,

@@ -59,7 +59,9 @@ const NormalCard = ({ word, onSave }) => {
           }
         </div>
       </div>
+      {onSave && 
       <EditFlashCard flashcard={word} key={word.word} isOpen={isOpen} onClose={()=>setIsOpen(false)} onSave={onSave}/>
+      }
     </div>
   );
 };

@@ -69,4 +69,6 @@ audio upload
 
 删除过期的audio，如果新生成了audio。。
 
+有一个job，每天同步words 到vocabulary_for_ielts
+
 
