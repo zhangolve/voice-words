@@ -71,4 +71,6 @@ audio upload
 
 有一个job，每天同步words 到vocabulary_for_ielts
 
+https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
+
 

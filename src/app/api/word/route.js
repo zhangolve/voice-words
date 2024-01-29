@@ -1,6 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
-import { createNewTts } from '../../utils'
+import { createNewTts } from '../utils'
 
 
 export async function GET(req) {
