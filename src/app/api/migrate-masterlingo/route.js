@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import rawData from './result.json'
 import fs from 'fs';
 
+
+
 const exampleJSON  = JSON.stringify({ "word": "acclimated",
 "pronunciation": "ə'klaɪmətid",
 "translation_word": "适应",
