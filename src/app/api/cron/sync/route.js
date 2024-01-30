@@ -1,12 +1,20 @@
 import { NextResponse } from 'next/server'
-import { createWordExample, createNewTts } from '../../utils' 
+import { createWordExample, createNewTts, getMissingData } from '../../utils' 
 import { sql } from '@vercel/postgres';
 
 
 
-export async function GET() {
+export async function GET(req) {
     try {
-        const missingSentenceWordsResult = await sql`select * from words where sentence is NULL`;
+        let timestamp;
+        const { now } = Object.fromEntries(req.nextUrl.searchParams);
+        if(!now) {
+            timestamp = new Date().getTime();
+        }
+        else {
+            timestamp = Number(now);
+        }
+        const missingSentenceWordsResult = await sql`SELECT * FROM words WHERE sentence IS NULL`;
         const missingSentenceWords = missingSentenceWordsResult.rows;
         // 补全sentence
         for(var i = 0; i < missingSentenceWords.length; i++) {
@@ -28,7 +36,8 @@ export async function GET() {
         return NextResponse.json({
             result: {
                 missingAudioWords: missingAudioWords.length, 
-                missingSentenceWords: missingSentenceWords.length
+                missingSentenceWords: missingSentenceWords.length,
+                timestamp,
             }}, { status: 200 })
     }
     catch (error) {

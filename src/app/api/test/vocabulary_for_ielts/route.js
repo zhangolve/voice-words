@@ -19,7 +19,6 @@ export async function GET() {
 
 export async function PUT(request) {
     const { word, mastered, translations } = await request.json();
-    console.log(mastered, word, translations, 'mastered')
     try {
         if(mastered) {
             const result = await sql`UPDATE vocabulary_for_ielts

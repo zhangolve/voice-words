@@ -1,5 +1,7 @@
+
 import { sql } from '@vercel/postgres';
 import fs from 'fs'
+
 
 const exampleJSON  = JSON.stringify({ "word": "acclimated",
 "pronunciation": "ə'klaɪmətid",
@@ -37,9 +39,7 @@ export const createWordExample = async (word)=> {
         body: JSON.stringify({ userPrompt: `给出这个单词${word}的音标，中文翻译，给出一个英文例句和他的例句中文翻译，以json的形式返回,输出格式为 ${exampleJSON}`})
       })
       const rawData = await res.json();
-      console.log(rawData,'raw')
       data = formatTranslation(rawData)
-      console.log('dataaaa',data)
       } catch (error) {
         fs.appendFileSync('error.txt', `${word} \n`);
         return {error: 'error'}
@@ -84,3 +84,4 @@ export async function createNewTts(query) {
         const ttsData = await ttsRes.json();
         await sql`UPDATE words SET audio = ${ttsData.objectKey} WHERE word = ${query.word};`;
 }
+
