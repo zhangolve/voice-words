@@ -1,6 +1,7 @@
 
 import { sql } from '@vercel/postgres';
 import fs from 'fs'
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 
 const exampleJSON  = JSON.stringify({ "word": "acclimated",
@@ -11,13 +12,12 @@ const exampleJSON  = JSON.stringify({ "word": "acclimated",
 
 
 const formatTranslation = (data)=> {
-    const jsonString = data.text;
-  
+    const jsonString = data;
       // 从字符串中提取JSON部分
     const jsonStartIndex = jsonString.indexOf('{');
     const jsonEndIndex = jsonString.lastIndexOf('}');
     const jsonContent = jsonString.substring(jsonStartIndex, jsonEndIndex + 1);
-    console.log(jsonString,'jsonString',jsonContent,'jsonContent')
+    console.log(jsonString,'jsonString')
     // 解析JSON
     try {
       const jsonObject = JSON.parse(jsonContent);
@@ -27,21 +27,24 @@ const formatTranslation = (data)=> {
     }
   }
 
+export async function translate(userPrompt) {
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-pro", generationConfig: { maxOutputTokens: 200 }});
+    try {
+      const result = await model.generateContent(userPrompt);
+      const response = await result.response;
+      const text = response.text();
+      return text;
+    } catch (error) {
+      return null;
+    }
+}
+
 export const createWordExample = async (word)=> {
     console.log(word,'word')
     let data = null;
     try {
-    const res = await fetch({
-        url: process.env.URL +'/api/translate',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ userPrompt: `给出这个单词或短语 ${word} 的音标，中文翻译，给出一个英文例句和他的例句中文翻译，以json的形式返回,输出格式为 ${exampleJSON}`})
-      })
-      const rawData = await res.json();
-      console.log(rawData,'rawData')
-
+      const rawData = await translate(`给出这个单词或短语 ${word} 的音标，中文翻译，给出一个英文例句和他的例句中文翻译，以json的形式返回,输出格式为 ${exampleJSON}`)
       data = formatTranslation(rawData)
       } catch (error) {
         console.log(error,'error')
