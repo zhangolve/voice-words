@@ -20,9 +20,8 @@ export async function GET(req) {
         for(var i = 0; i < missingSentenceWords.length; i++) {
             const word = missingSentenceWords[i].word;
             const {data, ttsData} = await createWordExample(word);
-            const translations = missingSentenceWords[i].translations ||   [translation_word]
+            const translations = missingSentenceWords[i].translations || [translation_word]
             const due_date = missingSentenceWords[i].due_date || +new Date();
-            console.log(due_date,'due')
             console.log(data,'data')
             if(data) {
                 await sql`update words set sentence=${data.sentence},translations=${translations}, period=1, audio=${ttsData.objectKey}, due_date=${due_date} where word = ${word} `;

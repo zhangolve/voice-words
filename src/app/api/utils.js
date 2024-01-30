@@ -17,7 +17,7 @@ const formatTranslation = (data)=> {
     const jsonStartIndex = jsonString.indexOf('{');
     const jsonEndIndex = jsonString.lastIndexOf('}');
     const jsonContent = jsonString.substring(jsonStartIndex, jsonEndIndex + 1);
-  
+    console.log(jsonString,'jsonString',jsonContent,'jsonContent')
     // 解析JSON
     try {
       const jsonObject = JSON.parse(jsonContent);
@@ -28,6 +28,7 @@ const formatTranslation = (data)=> {
   }
 
 export const createWordExample = async (word)=> {
+    console.log(word,'word')
     let data = null;
     try {
     const res = await fetch({
@@ -36,16 +37,19 @@ export const createWordExample = async (word)=> {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ userPrompt: `给出这个单词${word}的音标，中文翻译，给出一个英文例句和他的例句中文翻译，以json的形式返回,输出格式为 ${exampleJSON}`})
+        body: JSON.stringify({ userPrompt: `给出这个单词或短语 ${word} 的音标，中文翻译，给出一个英文例句和他的例句中文翻译，以json的形式返回,输出格式为 ${exampleJSON}`})
       })
       const rawData = await res.json();
+      console.log(rawData,'rawData')
+
       data = formatTranslation(rawData)
       } catch (error) {
-        fs.appendFileSync('error.txt', `${word} \n`);
+        console.log(error,'error')
+        // fs.appendFileSync('error.txt', `${word} \n`);
         return {error: 'error'}
       }
       if(!data) {
-        fs.appendFileSync('error.txt', `${word} \n`);
+        // fs.appendFileSync('error.txt', `${word} \n`);
         return {error: 'error'}
       }
 
