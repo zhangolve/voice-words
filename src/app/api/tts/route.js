@@ -45,10 +45,10 @@ const textToSpeech = async (key, region, text, filename)=> {
                 synthesizer.close();
                 
                 if (filename) {
-                    
+                    // console.log('finish')
                     // return stream from file
-                    const audioFile = fs.createReadStream(filename);
-                    resolve(audioFile);
+                    // const audioFile = fs.createReadStream(filename);
+                    // resolve(audioFile);
                     
                 } else {
                     const bufferStream = new PassThrough();
@@ -57,9 +57,16 @@ const textToSpeech = async (key, region, text, filename)=> {
                 }
             },
             error => {
+                console.log('error', error);
                 synthesizer.close();
                 reject(error);
             }); 
+
+            synthesizer.synthesisCompleted = function (s, e) {
+                console.log("(synthesized)  Reason: " + sdk.ResultReason[e.result.reason] + " Audio length: " + e.result.audioData.byteLength);
+                const audioFile = fs.createReadStream(filename);
+                    resolve(audioFile);
+            };
     });
 };
 

@@ -40,11 +40,11 @@ export async function PUT(req) {
 export async function POST(req) {
     const reqBody = await req.json();
     // 是否可以修改word
-    const { word: rawWord, sentence, note, translations, audio} = reqBody;
+    const { word: rawWord, sentence, note, translations, audio, pronunciation} = reqBody;
     const word = rawWord.trim();
     const due_date = +new Date();
     try {
-        await sql`insert into words (word, sentence, note, translations, audio, Due_date, Period) VALUES (${word}, ${sentence}, ${note}, ${translations}, ${audio}, ${due_date}, 1)`;
+        await sql`insert into words (word, sentence, note, translations, audio, Due_date, Period,pronunciation) VALUES (${word}, ${sentence}, ${note}, ${translations}, ${audio}, ${due_date}, 1, ${pronunciation})`;
         await sql``
         return NextResponse.json({ result:'ok'}, { status: 200 })
     }

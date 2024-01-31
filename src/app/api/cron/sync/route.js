@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { createWordExample, createNewTts, getMissingData } from '../../utils' 
+import { createWordExample, createNewTts } from '../../utils' 
 import { sql } from '@vercel/postgres';
 
 
@@ -24,7 +24,7 @@ export async function GET(req) {
             const due_date = missingSentenceWords[i].due_date || +new Date();
             console.log(data,'data')
             if(data) {
-                await sql`update words set sentence=${data.sentence},translations=${translations}, period=1, audio=${ttsData.objectKey}, due_date=${due_date} where word = ${word} `;
+                await sql`update words set sentence=${data.sentence},translations=${translations}, period=1, audio=${ttsData.objectKey}, due_date=${due_date}, pronunciation=${data.pronunciation} where word = ${word} `;
             }
         }
         const missingAudioWordsResult = await sql`select * from words where audio is NULL and sentence is not NULL`;
