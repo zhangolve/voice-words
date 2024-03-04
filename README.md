@@ -59,7 +59,7 @@ https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/apps/nextjs-app/app/Home.tsx
 
 search page / update page 都用到了同一个方法。。
 
-当前word/flashcard 的状态管理。。考虑引入 https://jotai.org/docs/core/atom
+当前word/flashcard 的状态管理。。考虑引入 https://jotai.org/docs/core/atom, 目前倒是也没有用jotai的必要
 https://swr.vercel.app/zh-CN/examples/subscription
 
 telegram bot 
