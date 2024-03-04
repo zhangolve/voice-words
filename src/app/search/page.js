@@ -20,6 +20,7 @@ export default function Search() {
   }, [data])
 
   useEffect(()=>{
+    console.log(word, wordData?.word, 'word, wordData?.word')
     if(word) {
       if(wordData?.word) {
         setData(wordData)
@@ -43,7 +44,7 @@ export default function Search() {
         .then(ttsData => {setData({...data, audio: ttsData.objectKey})})
         .catch(err => console.log(err))
     }
-
+    console.log(data?.sentence,'data?.sentence')
     if(data?.word) {
       createTTS()
     }

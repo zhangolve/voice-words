@@ -1,4 +1,4 @@
-import {useState, useRef, useEffect} from 'react';
+import {useState, useRef, useEffect, useCallback } from 'react';
 import { FaPencilAlt } from "react-icons/fa";
 import { AiFillAudio } from "react-icons/ai";
 import EditFlashCard from './EditFlashCard';
@@ -22,11 +22,12 @@ const LoadingCard = ()=> (
 )
 
 const NormalCard = ({ word, onSave }) => {
+
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const audioRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const playAudio = (e) => {
+  const playAudio = useCallback((e) => {
     e.stopPropagation();
     if(audioRef.current) {
       setIsAudioPlaying(!isAudioPlaying);
@@ -35,7 +36,11 @@ const NormalCard = ({ word, onSave }) => {
       audioRef.current = audio;
       setIsAudioPlaying(true);
     }
-  };
+  }, [isAudioPlaying, word.audio]);
+
+  useEffect(()=>{
+    audioRef.current = undefined;
+  }, [word.audio])
 
   useEffect(()=>{
     if(audioRef.current) {
@@ -60,7 +65,7 @@ const NormalCard = ({ word, onSave }) => {
         </div>
       </div>
       {onSave && 
-      <EditFlashCard flashcard={word} key={word.word} isOpen={isOpen} onClose={()=>setIsOpen(false)} onSave={onSave}/>
+      <EditFlashCard flashcard={word} key={`${word.word}${isOpen}`} isOpen={isOpen} onClose={()=>setIsOpen(false)} onSave={onSave}/>
       }
     </div>
   );

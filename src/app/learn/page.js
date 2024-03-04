@@ -2,11 +2,14 @@
 import {useEffect, useState} from 'react';
 import ReviewCard from '../components/ReviewCard'
 import Buttons from '../components/Buttons'
-import { good, retry, master} from './utils'
+import { good, retry, master, currentWordAtom} from './utils'
+import { useAtom } from 'jotai'
+
 
 const Review = () => {
     const [words, setWords] = useState([])
-    const [currentWord, setCurrentWord] = useState()
+    const [currentWord, setCurrentWord] = useAtom(currentWordAtom)
+    // const [currentWord, setCurrentWord] = useState()
 
     const fetchNewData = ()=> {
         fetch('/api/due-date-words', {

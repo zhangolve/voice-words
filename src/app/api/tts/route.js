@@ -27,7 +27,9 @@ const textToSpeech = async (key, region, text, filename)=> {
     return new Promise((resolve, reject) => {
         const speechConfig = sdk.SpeechConfig.fromSubscription(key, region);
         speechConfig.speechSynthesisOutputFormat = 5; // mp3
-        speechConfig.speechSynthesisVoiceName = "zh-CN-XiaochenNeural";
+        // speechConfig.speechSynthesisVoiceName = "zh-CN-XiaochenNeural";
+        speechConfig.speechSynthesisVoiceName = "en-US-JaneNeural";
+
         
         let audioConfig = null;
         
@@ -39,11 +41,27 @@ const textToSpeech = async (key, region, text, filename)=> {
         synthesizer.speakTextAsync(
             text,
             result => {
-                
-                const { audioData } = result;
-
+                if (result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
+                    console.log("synthesis finished");
+                    resolve();
+                } else if (result.reason === SpeechSDK.ResultReason.Canceled) {
+                    console.log("synthesis failed. Error detail: " + result.errorDetails);
+                  }
                 synthesizer.close();
                 
+                
+                if (filename) {
+                    // console.log('finish')
+                    // return stream from file
+                    // const audioFile = fs.createReadStream(filename);
+                    // resolve(audioFile);
+                    
+                } else {
+                    const bufferStream = new PassThrough();
+                    bufferStream.end(Buffer.from(audioData));
+                    resolve(bufferStream);
+                }
+               
                 if (filename) {
                     // console.log('finish')
                     // return stream from file
@@ -62,11 +80,9 @@ const textToSpeech = async (key, region, text, filename)=> {
                 reject(error);
             }); 
 
-            synthesizer.synthesisCompleted = function (s, e) {
-                console.log("(synthesized)  Reason: " + sdk.ResultReason[e.result.reason] + " Audio length: " + e.result.audioData.byteLength);
-                const audioFile = fs.createReadStream(filename);
-                    resolve(audioFile);
-            };
+            // synthesizer.synthesisCompleted = function (s, e) {
+              
+            // };
     });
 };
 

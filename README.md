@@ -74,3 +74,6 @@ audio upload
 https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 
 
+单词加标签，通过加标签，将单词分组，然后可以根据标签进行搜索。
+
+修改内容，点击卡片cancel，结果内容被保存了，当时看还是修改过的。不是很好改！！可以引入状态管理解决。

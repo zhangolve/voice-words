@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useCreateWordExample, formatData } from '../utils';
+import { atom, useAtom } from 'jotai'
 
 const Modal = ({ isOpen, onClose, flashcard, onSave }) => {
-    const { data, error, isLoading, setShouldFetch } = useCreateWordExample(flashcard.word);
+    
+    const { data, setShouldFetch } = useCreateWordExample(flashcard.word);
 
     const [content, setContent] = useState(flashcard);
     const handleSave = () => {
@@ -17,7 +19,8 @@ const Modal = ({ isOpen, onClose, flashcard, onSave }) => {
     useEffect(()=>{
         if(data?.text) {
             const rurrentContent = formatData(data) || {}
-            setContent({...rurrentContent,translations: [rurrentContent.translation_word]})
+
+            setContent({...content, ...rurrentContent,translations:content?.translations || [rurrentContent.translation_word]})
         }
     }, [data])
 
@@ -42,15 +45,15 @@ const Modal = ({ isOpen, onClose, flashcard, onSave }) => {
                                     Edit Flashcard
                                 </h3>
                                 <div className="mt-2">
-                                <input className="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 font-semibold" name="original" maxlength="60" placeholder="Foreign word" autoComplete="off" type="text" value={content.word} onChange={(e) => { setContent({...content, word: e.target.value})}} />
+                                <input className="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 font-semibold" name="original" placeholder="Foreign word" autoComplete="off" type="text" value={content.word} onChange={(e) => { setContent({...content, word: e.target.value})}} />
                                 </div>
                                 <div className="mt-2">
                                 <label>translation</label>
-                                <input className="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 font-semibold" name="translation" maxlength="60" placeholder="Translation" autoComplete="off" type="text" value={content.translations[0]} onChange={(e) => { setContent({...content, translations: [e.target.value]})}}/>
+                                <input className="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 font-semibold" name="translation" placeholder="Translation" autoComplete="off" type="text" value={content.translations[0]} onChange={(e) => { setContent({...content, translations: [e.target.value]})}}/>
                                 <label>Notes</label>
-                                <textarea className="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 font-semibold" name="translation" maxlength="60" placeholder="Translation" autoComplete="off" type="text" value={content.note} onChange={(e) => { setContent({...content, note: e.target.value})}}/>
+                                <textarea className="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 font-semibold" name="translation" placeholder="Translation" autoComplete="off" type="text" value={content.note} onChange={(e) => { setContent({...content, note: e.target.value})}}/>
                                 <label>example</label>
-                                <textarea className="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 font-semibold" name="translation" maxlength="60" placeholder="Translation" autoComplete="off" type="text" value={content.sentence} onChange={(e) => { setContent({...content, sentence: e.target.value})}}/>
+                                <textarea className="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 font-semibold" name="translation" placeholder="Translation" autoComplete="off" type="text" value={content.sentence} onChange={(e) => { setContent({...content, sentence: e.target.value})}}/>
                                 </div>
                             </div>
                         </div>

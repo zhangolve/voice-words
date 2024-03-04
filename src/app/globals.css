@@ -18,14 +18,18 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: antiquewhite;
+  /* linear-gradient( */
+      /* to bottom, */
+      /* transparent, */
+      /* rgb(var(--background-end-rgb)) */
+    /* ) */
+    /* rgb(var(--background-start-rgb)); */
 }
 
+main {
+  color: black;
+}
 .review {
   width: 50rem;
   height: 20rem;

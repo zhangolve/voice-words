@@ -1,4 +1,6 @@
+import { atom } from 'jotai'
 
+export const currentWordAtom = atom(null)
 
 export const retry = async (word)=> {
     const due_date = +new Date();
