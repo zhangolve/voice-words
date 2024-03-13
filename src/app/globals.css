@@ -30,6 +30,9 @@ body {
 main {
   color: black;
 }
+.min-h-screen {
+  min-height: calc(100vh - 64px)
+}
 .review {
   width: 50rem;
   height: 20rem;
