@@ -1,9 +1,45 @@
-const Collection = ()=> {
-    return (
-      <div>
-        <h1>Search</h1>
-      </div>
-    );
+"use client"
+import { BarChart } from '@mui/x-charts/BarChart';
+import useSWR from "swr";
+import { fetcher } from '../utils'
+
+
+const chartSetting = {
+  xAxis: [
+    {
+      label: 'rainfall (mm)',
+    },
+  ],
+  width: 500,
+  height: 400,
+};
+
+
+const valueFormatter = (value) =>{console.log(value); return `${value}`};
+
+export default function HorizontalBars() {
+  const { data, error, isLoading } = useSWR({url: `/api/word/statistics`}, fetcher);
+  if(isLoading) {
+    return <div>loading</div>
   }
+  console.log(data,'data')
+  return (
+    <BarChart
+      dataset={data.result}
+      yAxis={[{ scaleType: 'band', dataKey: 'period' }]}
+      series={[{ dataKey: 'count', label: 'how many', valueFormatter }]}
+      layout="horizontal"
+      {...chartSetting}
+    />
+  );
+}
+
+// const Collection = ()=> {
+//     return (
+//       <div>
+//         <h1>Search</h1>
+//       </div>
+//     );
+//   }
   
-  export default Collection;
+//   export default Collection;
