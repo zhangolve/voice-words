@@ -13,20 +13,24 @@ export default function Home() {
     return <Loading />
   }
 
-  const count = data?.result || 0;
+  const nowCount = data?.result?.now || 0;
+  const tomorrowCount = data?.result?.tomorrow || 0;
 
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        {count > 0 &&
+        {nowCount > 0 &&
         (
           <>
-            <div>You have {count} flashcards due to review.</div>
+            <div>
+            <div>You have {nowCount} flashcards due to review.</div>
+            {tomorrowCount && <div>You have {tomorrowCount} flashcards due to review tomorrow.</div>}
+            </div>
             <button className="mx-2 hover:bg-blue-700 px-2 py-1 rounded bg-blue-500 text-white" onClick={() => router.push('/learn')}>start review</button>
           </>
           )
         }
-        {count == 0 &&
+        {nowCount == 0 &&
         (
           <>
             <div>You have no flashcards due to review.</div>
