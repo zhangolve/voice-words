@@ -52,7 +52,7 @@ const NormalCard = ({ word, onSave }) => {
     }
   }, [isAudioPlaying])
 
-  const content = isAudioPlaying ? word.sentence: (!isFlipped ? word.word: word.translations.toString());
+  const content = isAudioPlaying ? word.sentence: (!isFlipped ? <>{word.word}<br/>{word.pronunciation}</>: word.translations.toString());
   return (
     <div className="review rounded overflow-hidden shadow-lg m-4 card cursor-pointer relative" onClick={()=> { setIsAudioPlaying(false); setIsFlipped(!isFlipped)}}>
       <div className={`px-6 py-4 flex items-center justify-center h-full transition-transform duration-700 ease-in-out ${isFlipped ? 'rotate-y-180' : ''}`}>
