@@ -22,42 +22,58 @@ import bucket from './bucket';
  * @param {*} filename optional - best for long text - temp file for converted speech/audio
  */
 const textToSpeech = async (key, region, text, filename)=> {
-    
+    const { english, chinese } = text;
     // convert callback function to promise
-    return new Promise((resolve, reject) => {
-        const speechConfig = sdk.SpeechConfig.fromSubscription(key, region);
-        speechConfig.speechSynthesisOutputFormat = 5; // mp3
-        // speechConfig.speechSynthesisVoiceName = "zh-CN-XiaochenNeural";
-        speechConfig.speechSynthesisVoiceName = "en-US-JaneNeural";
-
+    const englishPromise = new Promise((resolve, reject) => {
+        const englishSpeechConfig = sdk.SpeechConfig.fromSubscription(key, region);
+        englishSpeechConfig.speechSynthesisOutputFormat = 5; // mp3
+        englishSpeechConfig.speechSynthesisVoiceName = "en-US-JaneNeural";  
+        const englishSynthesizer = new sdk.SpeechSynthesizer(englishSpeechConfig);
         
-        let audioConfig = null;
-      
-        
-        // const synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig);
-        const synthesizer = new sdk.SpeechSynthesizer(speechConfig);
-
-        // 监听合成事件
-        synthesizer.synthesisCompleted = (s, e) => {
+        englishSynthesizer.synthesisCompleted = (s, e) => {
             if (e.result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
-                console.log('语音合成完成');
-        
-                // 将合成的音频保存到文件
-                console.log(`音频要保存到 ${filename}`);
-                const buffer = Buffer.from(e.result.audioData);
-                fs.writeFileSync(filename, buffer);
-                console.log(`音频已保存到 ${filename}`);
-                resolve();
+                console.log('English speech synthesis completed');
+                resolve(e.result.audioData);
             } else {
-                console.error('合成失败:', e.result.reason);
+                console.error('English synthesis failed:', e.result.reason);
+                reject(e.result.reason);
             }
         };
         
-        // 开始合成文本为语音
-        console.log('开始合成...');
-        synthesizer.speakTextAsync(text);
+        console.log('Start synthesizing English...');
+        englishSynthesizer.speakTextAsync(english);
     });
+    
+    // Convert Chinese text to speech
+    const chinesePromise = new Promise((resolve, reject) => {
+        const chineseSpeechConfig = sdk.SpeechConfig.fromSubscription(key, region);
+        chineseSpeechConfig.speechSynthesisOutputFormat = 5; // mp3
+        chineseSpeechConfig.speechSynthesisVoiceName = "zh-CN-XiaochenNeural";  
+        const chineseSynthesizer = new sdk.SpeechSynthesizer(chineseSpeechConfig);
         
+        chineseSynthesizer.synthesisCompleted = (s, e) => {
+            if (e.result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
+                console.log('Chinese speech synthesis completed');
+                resolve(e.result.audioData);
+            } else {
+                console.error('Chinese synthesis failed:', e.result.reason);
+                reject(e.result.reason);
+            }
+        };
+        
+        console.log('Start synthesizing Chinese...');
+        chineseSynthesizer.speakTextAsync(chinese);
+    });
+    
+    // Wait for both promises to resolve
+    const [englishAudio, chineseAudio] = await Promise.all([englishPromise, chinesePromise]);
+    
+    // Combine English and Chinese audio
+    const combinedAudio = Buffer.concat([Buffer.from(englishAudio), Buffer.from(chineseAudio)]); // Code to combine audio files
+    // Save combined audio to file
+    console.log(`Audio will be saved to ${filename}`);
+    fs.writeFileSync(filename, combinedAudio);
+    console.log(`Audio saved to ${filename}`);    
 };
 
 

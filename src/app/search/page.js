@@ -38,7 +38,7 @@ export default function Search() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ text: `${data.word}, ${data.word}, ${data.sentence}, ${data.translation}`, word:data.word })
+        body: JSON.stringify({ text: {english: `${data.word}, ${data.word}, ${data.sentence}`,chinese: `${data.translation}`}, word:data.word })
       })
         .then(res => res.json())
         .then(ttsData => {setData({...data, audio: ttsData.objectKey})})

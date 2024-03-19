@@ -61,7 +61,7 @@ export const createWordExample = async (word)=> {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ text: `${data.word}, ${data.word}, ${data.sentence}, ${data.translation}`, word: data.word })
+        body: JSON.stringify({ text: {english: `${data.word}, ${data.word}, ${data.sentence}`,chinese: `${data.translation}`}, word: data.word })
       })
       const ttsData = await ttsRes.json();
       return {data, ttsData}
@@ -86,7 +86,7 @@ export async function createNewTts(query) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ text: `${query.word}, ${query.word}, ${query.sentence}, ${translation}`, word:query.word })
+        body: JSON.stringify({ text: {english: `${data.word}, ${data.word}, ${data.sentence}`,chinese: `${data.translation}`}, word:query.word })
         })  
         const ttsData = await ttsRes.json();
         await sql`UPDATE words SET audio = ${ttsData.objectKey} WHERE word = ${query.word};`;

@@ -76,7 +76,7 @@ export async function GET() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ text: `${data.word}, ${data.word}, ${data.sentence}, ${data.translation}`, word: data.word })
+          body: JSON.stringify({ text: {english: `${data.word}, ${data.word}, ${data.sentence}`,chinese: `${data.translation}`}, word: data.word })
         })
         const ttsData = await ttsRes.json();
         await sql`INSERT INTO words (word, pronunciation, translations, note, sentence, due_date, period, audio) VALUES (${query.word}, ${data.pronunciation}, ${[data.translation_word]}, ${query.note}, ${data.sentence}, ${query.dueDate}, ${query.period}, ${ttsData.objectKey});`;  
