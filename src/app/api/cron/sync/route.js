@@ -2,18 +2,11 @@ import { NextResponse } from 'next/server'
 import { createWordExample, createNewTts } from '../../utils' 
 import { sql } from '@vercel/postgres';
 
+export const dynamic = 'force-dynamic';
 
 
 export async function GET(req) {
     try {
-        let timestamp;
-        const { now } = Object.fromEntries(req.nextUrl.searchParams);
-        if(!now) {
-            timestamp = new Date().getTime();
-        }
-        else {
-            timestamp = Number(now);
-        }
         const missingSentenceWordsResult = await sql`SELECT * FROM words WHERE sentence IS NULL`;
         const missingSentenceWords = missingSentenceWordsResult.rows;
         // 补全sentence
@@ -36,7 +29,6 @@ export async function GET(req) {
             result: {
                 missingAudioWords: missingAudioWords.length, 
                 missingSentenceWords: missingSentenceWords.length,
-                timestamp,
             }}, { status: 200 })
     }
     catch (error) {

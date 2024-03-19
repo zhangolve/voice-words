@@ -77,3 +77,12 @@ https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 单词加标签，通过加标签，将单词分组，然后可以根据标签进行搜索。
 
 修改内容，点击卡片cancel，结果内容被保存了，当时看还是修改过的。不是很好改！！可以引入状态管理解决。
+
+标签页的名字，title,可以修改。
+
+笔记是一个rtf，这样可以放图片。。
+
+# docker build -t .
+
+Build your container: docker build -t nextjs-docker .
+Run your container: docker run -p 3000:3000 nextjs-docker
