@@ -70,7 +70,7 @@ export const createWordExample = async (word)=> {
 
 export async function createNewTts(query) {
     let translation = query.translation;
-    if(!translation) { 
+    if(!translation) {
         const res = await fetch(process.env.URL +'/api/translate', {
             method: 'POST',
             headers: {
@@ -81,14 +81,14 @@ export async function createNewTts(query) {
             const data = await res.json();
             translation = data.text;
     }  
-        const ttsRes = await fetch(process.env.URL +'/api/tts', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ text: {english: `${data.word}, ${data.word}, ${data.sentence}`,chinese: `${data.translation}`}, word:query.word })
-        })  
-        const ttsData = await ttsRes.json();
-        await sql`UPDATE words SET audio = ${ttsData.objectKey} WHERE word = ${query.word};`;
+    const ttsRes = await fetch(process.env.URL +'/api/tts', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ text: {english: `${query.word}, ${query.word}, ${query.sentence}`,chinese: `${translation}`}, word:query.word })
+    })  
+    const ttsData = await ttsRes.json();
+    await sql`UPDATE words SET audio = ${ttsData.objectKey} WHERE word = ${query.word};`;
 }
 
