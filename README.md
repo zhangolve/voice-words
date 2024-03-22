@@ -81,8 +81,12 @@ https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 标签页的名字，title,可以修改。
 
 笔记是一个rtf，这样可以放图片。。
+单词的关联，联想。。 
+
+https://www.npmjs.com/package/p-retry
 
 # docker build -t .
 
 Build your container: docker build -t nextjs-docker .
 Run your container: docker run -p 3000:3000 nextjs-docker
+
