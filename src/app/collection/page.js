@@ -23,7 +23,9 @@ export default function HorizontalBars() {
     return <div>loading</div>
   }
   console.log(data,'data')
+  const total = data.result.reduce((acc, { count }) => acc + count, 0);
   return (
+    <>
     <BarChart
       dataset={data.result}
       yAxis={[{ scaleType: 'band', dataKey: 'period' }]}
@@ -31,6 +33,8 @@ export default function HorizontalBars() {
       layout="horizontal"
       {...chartSetting}
     />
+    <div className='text-black text-lg '>Total: {total}</div>
+    </>
   );
 }
 
