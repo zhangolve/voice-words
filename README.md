@@ -36,23 +36,27 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 
-# todo
+# 已实现
 
 - support custom sentence 
 - support bulk upload 
-- --experimental-https
-
 - https://github.com/f2face/cloudflare-r2
 
 调研一下，如何使用ffmpeg,在vercel环境下拼接视频。
 - give it a try https://github.com/ffmpegwasm/ffmpeg.wasm 
 - https://medium.com/@tareqaziz0065/ffmpeg-awesome-with-next-js-6580f6517660
 
-https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/apps/nextjs-app/app/Home.tsx 前端渲染，合并多个音频。性能如何？？？！！！
+https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/apps/nextjs-app/app/Home.tsx 前端渲染，合并多个音频。性能如何？？？！！！vercel 免费版本有限制。
 
 
-// 生成tts， 异步任务， 生成后保存到数据库
-// 根据情况考虑是否部署到docker上。
+
+- 生成tts， 异步任务， 生成后保存到数据库
+-  根据情况考虑是否部署到docker上。
+
+
+# todo
+
+
 还是使用docker吧，实际只有一个有效的final.mp3文件，其他的都是临时文件，可以删除。
 
 //是不是应该有一个单词数量限制，一次生成太多单词，会导致生成时间过长，也可能会有一些潜在的问题吧，比如占用资源比较多。另外，如何更快地利用数据也是一个问题。每一个audio也许都有默认值和自定义值。默认值其实是通用的。
