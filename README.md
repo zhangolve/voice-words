@@ -52,7 +52,11 @@ https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/apps/nextjs-app/app/Home.tsx
 
 - 生成tts， 异步任务， 生成后保存到数据库
 -  根据情况考虑是否部署到docker上。
+- https://www.npmjs.com/package/p-retry 引入它，用于错误处理
+- 词组的处理
 
+-当前word/flashcard 的状态管理。。考虑引入 https://jotai.org/docs/core/atom, 目前倒是也没有用jotai的必要
+https://swr.vercel.app/zh-CN/examples/subscription
 
 # todo
 
@@ -63,13 +67,10 @@ https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/apps/nextjs-app/app/Home.tsx
 
 search page / update page 都用到了同一个方法。。
 
-当前word/flashcard 的状态管理。。考虑引入 https://jotai.org/docs/core/atom, 目前倒是也没有用jotai的必要
-https://swr.vercel.app/zh-CN/examples/subscription
 
 telegram bot 
 audio upload 
 
-词组的处理
 
 删除过期的audio，如果新生成了audio。。
 
@@ -78,16 +79,15 @@ audio upload
 https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 
 
-单词加标签，通过加标签，将单词分组，然后可以根据标签进行搜索。
+- 单词加标签，通过加标签，将单词分组，然后可以根据标签进行搜索。
 
-修改内容，点击卡片cancel，结果内容被保存了，当时看还是修改过的。不是很好改！！可以引入状态管理解决。
+- 修改内容，点击卡片cancel，结果内容被保存了，当时看还是修改过的。不是很好改！！可以引入状态管理解决。
 
-标签页的名字，title,可以修改。
+- 标签页的名字，title,可以修改。
 
-笔记是一个rtf，这样可以放图片。。
-单词的关联，联想。。 
+- 笔记是一个rtf，这样可以放图片。。
+- 单词的关联，联想。。 
 
-https://www.npmjs.com/package/p-retry
 
 暂停的规则，还要加强，有时候语音播放到一半，换单词了，播放还在继续。
 
