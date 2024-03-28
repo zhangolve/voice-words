@@ -74,7 +74,7 @@ audio upload
 
 删除过期的audio，如果新生成了audio。。
 
-有一个job，每天同步words 到vocabulary_for_ielts
+- 有一个job，每天同步words 到vocabulary_for_ielts,现在是手动的，可以自动化，也可以做到UI里
 
 https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 
@@ -84,12 +84,9 @@ https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 - 修改内容，点击卡片cancel，结果内容被保存了，当时看还是修改过的。不是很好改！！可以引入状态管理解决。
 
 - 标签页的名字，title,可以修改。
-
 - 笔记是一个rtf，这样可以放图片。。
 - 单词的关联，联想。。 
-
-
-暂停的规则，还要加强，有时候语音播放到一半，换单词了，播放还在继续。
+- 暂停的规则，还要加强，有时候语音播放到一半，换单词了，播放还在继续。
 
 # docker build -t .
 
