@@ -85,6 +85,8 @@ https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 
 https://www.npmjs.com/package/p-retry
 
+暂停的规则，还要加强，有时候语音播放到一半，换单词了，播放还在继续。
+
 # docker build -t .
 
 Build your container: docker build -t nextjs-docker .
