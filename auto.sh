@@ -19,7 +19,7 @@ if [ "$local_head" != "$remote_head" ]; then
     fi
     # docker rm nextjs-docker -f
     # 运行新的 Docker 容器
-    docker run --name nextjs-docker -p 3000:3000 --restart always -d nextjs-docker
+    docker run --name nextjs-docker -p 3000:3000 --restart always nextjs-docker
     # 清理未被使用的 Docker 镜像
     docker image prune -f
 else
