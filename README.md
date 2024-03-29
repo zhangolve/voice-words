@@ -55,8 +55,9 @@ https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/apps/nextjs-app/app/Home.tsx
 - https://www.npmjs.com/package/p-retry 引入它，用于错误处理
 - 词组的处理
 
--当前word/flashcard 的状态管理。。考虑引入 https://jotai.org/docs/core/atom, 目前倒是也没有用jotai的必要
+- 当前word/flashcard 的状态管理。。考虑引入 https://jotai.org/docs/core/atom, 目前倒是也没有用jotai的必要
 https://swr.vercel.app/zh-CN/examples/subscription
+- 用上了新的vps
 
 # todo
 
