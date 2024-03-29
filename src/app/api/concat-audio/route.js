@@ -88,7 +88,6 @@ export async function GET(req) {
     const result = await sql`select audio from words where due_date < ${endOfDayTimestamp} and audio is not null order by due_date`;
     const objectKeys = result.rows.map(row => row.audio);
     const outputFileName = `${endOfDayTimestamp}-concat.mp3`;
-    console.log('999999',objectKeys)
     try {
         const outputFile = `${filePath}/${outputFileName}`
         await downloadAndConcat(objectKeys, outputFile);
