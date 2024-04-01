@@ -91,4 +91,9 @@ export async function POST(req) {
     return NextResponse.json(blob);
 }
 
+export async function GET(req) {
+    console.log(await bucket.listObjects(10))
+    return NextResponse.json({ result: 'ok' });
+}
+
 
