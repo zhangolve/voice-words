@@ -54,7 +54,7 @@ function concatFiles(fileList, outputFile) {
 
 // 下载并合并文件
 async function downloadAndConcat(objectKeys, outputFile) {
-    const urls = objectKeys.map(url => (url)=>`https://r2.hktkdy.com/${encodeURIComponent(url).replaceAll("'",'%27')}`);
+    const urls = objectKeys.map(url =>`https://r2.hktkdy.com/${encodeURIComponent(url).replaceAll("'",'%27')}`);
 
     const files = [];
 
