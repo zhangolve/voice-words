@@ -61,7 +61,7 @@ async function downloadAndConcat(objectKeys, outputFile) {
     for (let i = 0; i < urls.length; i++) {
         const file = objectKeys[i];
         console.log('download')
-        const fileName = `${filePath}/${file.replaceAll(' ','_')}`
+        const fileName = `${filePath}/${file.replace(/[!'()* ]/g,'_')}`
         const run = async () =>{
             await downloadFile(urls[i], fileName);
         }
