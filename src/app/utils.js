@@ -1,7 +1,7 @@
 "use client"
 
 import useSWR from "swr";
-import { useState } from "react";
+import { useState,useMemo } from "react";
 
 export const fetcher = (args) => fetch(typeof args ==='string' ? args : args.url, args).then((res) => res.json());
 
@@ -46,8 +46,10 @@ export const useCreateWordExample = (word) => {
     body: JSON.stringify({ userPrompt: `给出这个单词或短语${word}的音标，中文翻译，给出一个英文例句和他的例句中文翻译，以json的形式返回,输出格式为 ${exampleJSON}`})
   }: null, fetcher);
   
+  const formatedData = useMemo(()=>formatData(data),[data])
+
     return {
-        data: formatData(data),
+        data: formatedData,
         isLoading,
         error,
         shouldFetch, 

@@ -27,8 +27,7 @@ export default function Search() {
           setShouldFetch(true)
         }
       }
-  }, [wordData])
-
+  }, [wordData, word, setShouldFetch])
 
   useEffect(()=>{
     const createTTS = () => {
