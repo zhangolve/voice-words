@@ -26,8 +26,14 @@ export async function PUT(req) {
     const { word: rawWord, sentence, note, translations} = reqBody;
     const word = rawWord.trim();
     try {
-        await sql`update words set sentence=${sentence}, note=${note}, translations=${translations}, audio=null where word = ${word} `;
-        createNewTts(reqBody);
+        const previousResult = await sql`select * from words where word = ${word} `;
+        const previousData = previousResult.rows[0];
+        if(previousData.sentence && previousData.sentence == sentence) {
+            await sql`update words set note=${note}, translations=${translations} where word = ${word} `;    
+        } else {
+            await sql`update words set sentence=${sentence}, note=${note}, translations=${translations}, audio=null where word = ${word} `;
+            createNewTts(reqBody);
+        }
         return NextResponse.json({ result:'ok'}, { status: 200 })
     }
     catch (error) {
