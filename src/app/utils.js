@@ -13,8 +13,13 @@ export const exampleJSON  = JSON.stringify({ "word": "acclimated",
 "sentence": "The hikers acclimated to the high altitude gradually, allowing them to enjoy the mountain views without experiencing altitude sickness.",
 "translation": "这些徒步旅行者逐渐适应了高海拔，使他们能够在不出现高原反应的情况下欣赏山景。"});
 
-export const formatData = (data)=> {
-  const jsonString = data.text;
+export const formatData = (originalData)=> {
+    if (!originalData) {
+        return null;
+    }
+
+    // 从数据中提取JSON字符串
+  const jsonString = originalData.text;
 
     // 从字符串中提取JSON部分
   const jsonStartIndex = jsonString.indexOf('{');
@@ -40,8 +45,9 @@ export const useCreateWordExample = (word) => {
     },
     body: JSON.stringify({ userPrompt: `给出这个单词或短语${word}的音标，中文翻译，给出一个英文例句和他的例句中文翻译，以json的形式返回,输出格式为 ${exampleJSON}`})
   }: null, fetcher);
+  
     return {
-        data,
+        data: formatData(data),
         isLoading,
         error,
         shouldFetch, 

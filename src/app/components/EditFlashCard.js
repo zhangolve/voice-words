@@ -17,9 +17,8 @@ const Modal = ({ isOpen, onClose, flashcard, onSave }) => {
     }
 
     useEffect(()=>{
-        if(data?.text) {
-            const rurrentContent = formatData(data) || {}
-
+        if(data) {
+            const rurrentContent = data;
             setContent({...content, ...rurrentContent,translations:content?.translations || [rurrentContent.translation_word]})
         }
     }, [data])

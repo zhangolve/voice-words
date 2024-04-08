@@ -11,7 +11,7 @@ export default function Search() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const { data: example, error, isLoading, setShouldFetch } = useCreateWordExample(word);
-  const {data: wordData, error: wordError, isLoading: wordIsLoading} = useMySWR(word ? `/api/word?word=${word}`: null)
+  const {data: wordData, error: wordError, isLoading: wordIsLoading} = useMySWR({url: word ? `/api/word?word=${word}`: null})
   
   useEffect(()=>{
     if(data) {
@@ -20,15 +20,14 @@ export default function Search() {
   }, [data])
 
   useEffect(()=>{
-    console.log(word, wordData?.word, 'word, wordData?.word')
-    if(word) {
-      if(wordData?.word) {
-        setData(wordData)
-      } else {
-        setShouldFetch(true)
+      if(word) {
+        if(wordData?.word) {
+          setData(wordData.word)
+        } else {
+          setShouldFetch(true)
+        }
       }
-    }
-  }, [word, wordData?.word])
+  }, [wordData])
 
 
   useEffect(()=>{
@@ -44,15 +43,15 @@ export default function Search() {
         .then(ttsData => {setData({...data, audio: ttsData.objectKey})})
         .catch(err => console.log(err))
     }
-    console.log(data?.sentence,'data?.sentence')
-    if(data?.word) {
+
+    if(data?.word && !data?.audio) {
       createTTS()
     }
   }, [data?.sentence])
   
   useEffect(()=>{
-      if(example?.text) {
-          const rurrentContent = formatData(example) || {}
+      if(example?.word) {
+          const rurrentContent = example
           setData({...rurrentContent,translations: [rurrentContent.translation_word]})
       }
     }, [example])
