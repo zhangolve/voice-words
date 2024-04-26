@@ -59,6 +59,9 @@ https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/apps/nextjs-app/app/Home.tsx
 https://swr.vercel.app/zh-CN/examples/subscription
 - 用上了新的vps
 
+- 新的单词，添加笔记，无效。
+
+
 # todo
 
 
@@ -88,9 +91,10 @@ https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 - 笔记是一个rtf，这样可以放图片。。
 - 单词的关联，联想。。 
 - 暂停的规则，还要加强，有时候语音播放到一半，换单词了，播放还在继续。
-
 # docker build -t .
 
 Build your container: docker build -t nextjs-docker .
 Run your container: docker run -p 3000:3000 nextjs-docker
+
+
 

@@ -11,7 +11,7 @@ export default function Search() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const { data: example, error, isLoading, setShouldFetch } = useCreateWordExample(word);
-  const {data: wordData, error: wordError, isLoading: wordIsLoading} = useMySWR({url: word ? `/api/word?word=${word}`: null})
+  const {data: wordData, mutate, error: wordError, isLoading: wordIsLoading} = useMySWR({url: word ? `/api/word?word=${word}`: null})
   
   useEffect(()=>{
     if(data) {
@@ -20,12 +20,13 @@ export default function Search() {
   }, [data])
 
   useEffect(()=>{
-      if(word) {
-        if(wordData?.word) {
-          setData(wordData.word)
-        } else {
-          setShouldFetch(true)
-        }
+      if(word && wordData) {
+          console.log(wordData,'wordData')
+          if(wordData.word) {
+            setData(wordData.word)
+          } else {
+            setShouldFetch(true)
+          }
       }
   }, [wordData, word, setShouldFetch])
 
@@ -55,7 +56,7 @@ export default function Search() {
       }
     }, [example])
 
-  const submitSave =()=> {
+  const submitSave =(data)=> {
       const method = data?.id ? 'PUT' : 'POST';
       fetch('/api/word', {
         method,
@@ -65,8 +66,8 @@ export default function Search() {
         body: JSON.stringify(data)
       })
         .then(res => res.json())
-        .then(data => {
-          console.log(data)
+        .then(() => {
+          mutate({word:data})
         })
         .catch(err => console.log(err))
   }
