@@ -40,8 +40,19 @@ const NormalCard = ({ word, onSave }) => {
 
   useEffect(()=>{
     audioRef.current = undefined;
+    
   }, [word.audio])
 
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause(); // 暂停音频播放
+        audioRef.current = null; // 清除音频引用
+      }
+    };
+  }, []);
+
+  
   useEffect(()=>{
     if(audioRef.current) {
       if(isAudioPlaying) {
