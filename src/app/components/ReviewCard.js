@@ -38,6 +38,25 @@ const NormalCard = ({ word, onSave }) => {
     }
   }, [isAudioPlaying, word.audio]);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+        switch(event.keyCode) {
+            case 38: // "Shift" key
+                playAudio(event);
+                break;
+            default:
+                break;
+        }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Cleanup on unmount
+    return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+    };
+}, [playAudio]);
+
   useEffect(()=>{
     audioRef.current = undefined;
     

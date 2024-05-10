@@ -1,3 +1,6 @@
+import {useEffect} from 'react'
+
+
 const Again = ({onClick})=> {
     if(!onClick) return null
 
@@ -37,8 +40,32 @@ const Easy = ({onClick})=> {
 }
 
 const Buttons = ({onRetry,onGood, onMaster})=> {
+    // this is 
+    
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            switch(event.keyCode) {
+                case 37: // "Backspace" key
+                    onRetry();
+                    break;
+                case 39: // "enter" key
+                    onGood();
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Cleanup on unmount
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [onRetry, onGood, onMaster]);
+
     return (<div className="flex items-center mt-4 md:mt-7 w-full sm:ml-0">
-        <Again onClick={onRetry}/>
+        <Again onClick={onRetry} onPress/>
         <Good onClick={onGood}/>
         <Easy onClick={onMaster}/>
     </div>);

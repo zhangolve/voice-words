@@ -91,6 +91,9 @@ https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 - 笔记是一个rtf，这样可以放图片。。
 - 单词的关联，联想。。 
 - 暂停的规则，还要加强，有时候语音播放到一半，换单词了，播放还在继续。
+- 调整正确的例句中文翻译。。
+- 自定义快捷键
+
 # docker build -t .
 
 Build your container: docker build -t nextjs-docker .
