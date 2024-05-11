@@ -42,11 +42,19 @@ const NormalCard = ({ word, onSave }) => {
     [isAudioPlaying, word.audio],
   );
 
+  const onClickCard = () => {
+    setIsAudioPlaying(false);
+    setIsFlipped(!isFlipped);
+  };
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       switch (event.keyCode) {
-        case 38: // "Shift" key
+        case 38: // "UP" key
           playAudio(event);
+          break;
+        case 40: // "DOWN" key
+          onClickCard();
           break;
         default:
           break;

@@ -74,7 +74,7 @@ const Buttons = ({ onRetry, onGood, onMaster }) => {
   return (
     <div className="flex items-center mt-4 md:mt-7 w-full sm:ml-0">
       <Again onClick={onRetry} onPress />
-      <Good onClick={onGood} />
+      {onGood && <Good onClick={onGood} />}
       <Easy onClick={onMaster} />
     </div>
   );

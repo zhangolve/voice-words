@@ -8,7 +8,6 @@ import { useAtom } from "jotai";
 const Review = () => {
   const [words, setWords] = useState([]);
   const [currentWord, setCurrentWord] = useAtom(currentWordAtom);
-  // const [currentWord, setCurrentWord] = useState()
 
   const fetchNewData = () => {
     fetch("/api/due-date-words", {

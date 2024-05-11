@@ -1,15 +1,18 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { useCreateWordExample, formatData } from "../utils";
+import { useCreateWordExample } from "../utils";
 import SearchBar from "./SearchInput";
 import ReviewCard from "@/components/ReviewCard";
 import { useMySWR } from "@/utils";
+import { good, retry, master, currentWordAtom } from "../learn/utils";
+import Buttons from "@/components/Buttons";
 
 export default function Search() {
   const [word, setWord] = useState("");
   const inputRef = useRef(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showButtons, setShowButtons] = useState(false);
   const {
     data: example,
     error,
@@ -34,8 +37,10 @@ export default function Search() {
       console.log(wordData, "wordData");
       if (wordData.word) {
         setData(wordData.word);
+        setShowButtons(true);
       } else {
         setShouldFetch(true);
+        setShowButtons(false);
       }
     }
   }, [wordData, word, setShouldFetch]);
@@ -65,7 +70,7 @@ export default function Search() {
     if (data?.word && !data?.audio) {
       createTTS();
     }
-  }, [data, data.sentence]);
+  }, [data]);
 
   useEffect(() => {
     if (example?.word) {
@@ -93,6 +98,16 @@ export default function Search() {
       .catch((err) => console.log(err));
   };
 
+  const onRetry = async () => {
+    await retry(word);
+    setShowButtons(false);
+  };
+
+  const onMaster = async () => {
+    await master(word);
+    setShowButtons(false);
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-8">
       <div>
@@ -109,6 +124,7 @@ export default function Search() {
           inputRef={inputRef}
         />
         {(data || loading) && <ReviewCard word={data} onSave={submitSave} />}
+        {showButtons && <Buttons {...{ onRetry, onGood: null, onMaster }} />}
       </div>
     </main>
   );

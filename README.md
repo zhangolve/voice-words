@@ -93,6 +93,7 @@ https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 - 暂停的规则，还要加强，有时候语音播放到一半，换单词了，播放还在继续。
 - 调整正确的例句中文翻译。。
 - 自定义快捷键
+- badge， 根据level，不同的颜色。search的时候也标记出来，可以去将原来已经明确记得的单词改成0天。
 
 # docker build -t .
 
