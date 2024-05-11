@@ -1,13 +1,13 @@
-import { Inter } from 'next/font/google'
-import './globals.css'
-import Menu from './menu';
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Menu from "./menu";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'voice words',
-  description: 'learn english by audio sentence',
-}
+  title: "voice words",
+  description: "learn english by audio sentence",
+};
 
 export default function RootLayout({ children }) {
   return (
@@ -15,8 +15,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <Menu />
         {children}
-        
-        </body>
+      </body>
     </html>
-  )
+  );
 }

@@ -3,12 +3,9 @@ await kv.set("user_1_session", "session_token_value");
 const session = await kv.get("user_1_session");
 // 单词， 词组， 短语
 
-
 // 艾宾浩斯记忆法 1,2,4,7,15,30,60,120,240,480,960
 
-
 // {word: 'apple', translations: ['苹果'], note: '',dueDate: '',sentence: 'This is a apple.', period: 1, audio: 'name'}
-
 
 // "id": "656439069e3879002076d01f",
 // "original": "coalition",

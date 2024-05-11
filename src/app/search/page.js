@@ -1,99 +1,115 @@
-"use client"
-import { useEffect, useState, useRef } from 'react'
-import { useCreateWordExample, formatData } from '../utils';
-import SearchBar from './SearchInput';
-import ReviewCard from '@/components/ReviewCard';
+"use client";
+import { useEffect, useState, useRef } from "react";
+import { useCreateWordExample, formatData } from "../utils";
+import SearchBar from "./SearchInput";
+import ReviewCard from "@/components/ReviewCard";
 import { useMySWR } from "@/utils";
 
 export default function Search() {
-  const [word, setWord] = useState('')
-  const inputRef = useRef(null)
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const { data: example, error, isLoading, setShouldFetch } = useCreateWordExample(word);
-  const {data: wordData, mutate, error: wordError, isLoading: wordIsLoading} = useMySWR({url: word ? `/api/word?word=${word}`: null})
-  
-  useEffect(()=>{
-    if(data) {
-      setLoading(false)
+  const [word, setWord] = useState("");
+  const inputRef = useRef(null);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const {
+    data: example,
+    error,
+    isLoading,
+    setShouldFetch,
+  } = useCreateWordExample(word);
+  const {
+    data: wordData,
+    mutate,
+    error: wordError,
+    isLoading: wordIsLoading,
+  } = useMySWR({ url: word ? `/api/word?word=${word}` : null });
+
+  useEffect(() => {
+    if (data) {
+      setLoading(false);
     }
-  }, [data])
+  }, [data]);
 
-  useEffect(()=>{
-      if(word && wordData) {
-          console.log(wordData,'wordData')
-          if(wordData.word) {
-            setData(wordData.word)
-          } else {
-            setShouldFetch(true)
-          }
+  useEffect(() => {
+    if (word && wordData) {
+      console.log(wordData, "wordData");
+      if (wordData.word) {
+        setData(wordData.word);
+      } else {
+        setShouldFetch(true);
       }
-  }, [wordData, word, setShouldFetch])
+    }
+  }, [wordData, word, setShouldFetch]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const createTTS = () => {
-      fetch('/api/tts', {
-        method: 'POST',
+      fetch("/api/tts", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text: {english: `${data.word}, ${data.word}, ${data.sentence}`,chinese: `${data.translation}`}, word:data.word })
+        body: JSON.stringify({
+          text: {
+            english: `${data.word}, ${data.word}, ${data.sentence}`,
+            chinese: `${data.translation}`,
+          },
+          word: data.word,
+        }),
       })
-        .then(res => res.json())
-        .then(ttsData => {setData({...data, audio: ttsData.objectKey})})
-        .catch(err => console.log(err))
-    }
-
-    if(data?.word && !data?.audio) {
-      createTTS()
-    }
-  }, [data?.sentence])
-  
-  useEffect(()=>{
-      if(example?.word) {
-          const rurrentContent = example
-          setData({...rurrentContent,translations: [rurrentContent.translation_word]})
-      }
-    }, [example])
-
-  const submitSave =(data)=> {
-      const method = data?.id ? 'PUT' : 'POST';
-      fetch('/api/word', {
-        method,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-        .then(res => res.json())
-        .then(() => {
-          mutate({word:data})
+        .then((res) => res.json())
+        .then((ttsData) => {
+          setData({ ...data, audio: ttsData.objectKey });
         })
-        .catch(err => console.log(err))
-  }
+        .catch((err) => console.log(err));
+    };
+
+    if (data?.word && !data?.audio) {
+      createTTS();
+    }
+  }, [data, data.sentence]);
+
+  useEffect(() => {
+    if (example?.word) {
+      const rurrentContent = example;
+      setData({
+        ...rurrentContent,
+        translations: [rurrentContent.translation_word],
+      });
+    }
+  }, [example]);
+
+  const submitSave = (data) => {
+    const method = data?.id ? "PUT" : "POST";
+    fetch("/api/word", {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        mutate({ word: data });
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-8">
       <div>
-        <SearchBar handleSearch={
-          (e) => {
+        <SearchBar
+          handleSearch={(e) => {
             e.preventDefault();
             const currentWord = inputRef.current.value;
 
-            if(currentWord) {
+            if (currentWord) {
               setWord(currentWord);
-              setLoading(true)
+              setLoading(true);
             }
-          }
-        }
-        inputRef={inputRef}
+          }}
+          inputRef={inputRef}
         />
-        {
-          (data || (loading)) && <ReviewCard word={data} onSave={submitSave} />
-        }
+        {(data || loading) && <ReviewCard word={data} onSave={submitSave} />}
       </div>
     </main>
-  )
+  );
 }
-
-
