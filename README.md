@@ -94,6 +94,8 @@ https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 - 调整正确的例句中文翻译。。
 - 自定义快捷键
 - badge， 根据level，不同的颜色。search的时候也标记出来，可以去将原来已经明确记得的单词改成0天。
+- https://github.com/changhongzi/BNC_COCA_EN2CN?tab=readme-ov-file  词频表，重要性，有些认识即可，有些要重点记忆。
+
 
 # docker build -t .
 
