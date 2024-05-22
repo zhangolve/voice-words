@@ -42,10 +42,10 @@ const NormalCard = ({ word, onSave }) => {
     [isAudioPlaying, word.audio],
   );
 
-  const onClickCard = () => {
+  const onClickCard = useCallback(() => {
     setIsAudioPlaying(false);
     setIsFlipped(!isFlipped);
-  };
+  }, [isFlipped]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -67,7 +67,7 @@ const NormalCard = ({ word, onSave }) => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [playAudio]);
+  }, [onClickCard, playAudio]);
 
   useEffect(() => {
     audioRef.current = undefined;
@@ -76,8 +76,8 @@ const NormalCard = ({ word, onSave }) => {
   useEffect(() => {
     return () => {
       if (audioRef.current) {
-        audioRef.current.pause(); // 暂停音频播放
-        audioRef.current = null; // 清除音频引用
+        audioRef.current.pause();
+        audioRef.current = null;
       }
     };
   }, []);

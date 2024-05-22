@@ -6,7 +6,7 @@ import { fetcher } from "../utils";
 const chartSetting = {
   xAxis: [
     {
-      label: "rainfall (mm)",
+      label: "Count (mm)",
     },
   ],
   width: 500,
@@ -26,7 +26,6 @@ export default function HorizontalBars() {
   if (isLoading) {
     return <div>loading</div>;
   }
-  console.log(data, "data");
   const total = data.result.reduce((acc, { count }) => acc + count, 0);
   return (
     <>
