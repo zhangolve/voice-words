@@ -1,4 +1,3 @@
-// import { authenticate } from "@/services/authService";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { hgetKv } from "@/api/kvUtils";
@@ -13,26 +12,21 @@ export const authOptions = {
       },
       async authorize(credentials, req) {
         console.log(credentials, "credentials");
-        return { id: 1, name: "J Smith", email: "jsmith@example.com" };
-        // return { name: credentials.username, email: credentials.username };
-        // try {
-        //   const correctPassword = await hgetKv("users", credentials.username);
-        //   // const correctPassword = result.json();
-        //   console.log(correctPassword, credentials.password, "correctPassword");
-        //   if (correctPassword === credentials.password) {
-        //     console.log("00000");
-        //     return { name: credentials.username, email: credentials.username };
-        //   } else {
-        //     return null;
-        //   }
-        // } catch (error) {
-        //   console.log(error, "error");
-        //   return null;
-        // }
+        try {
+          const correctPassword = await hgetKv("users", credentials.username);
+          if (correctPassword === credentials.password) {
+            return { name: credentials.username, email: credentials.username };
+          } else {
+            return null;
+          }
+        } catch (error) {
+          console.log(error, "error");
+          return null;
+        }
       },
     }),
   ],
-  // session: { strategy: "jwt" },
+  session: { strategy: "jwt" },
 };
 
 const handler = NextAuth(authOptions);
