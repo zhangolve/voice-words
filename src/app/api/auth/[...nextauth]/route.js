@@ -10,8 +10,7 @@ export const authOptions = {
         username: { label: "Name", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
-        console.log(credentials, "credentials");
+      async authorize(credentials) {
         try {
           const correctPassword = await hgetKv("users", credentials.username);
           if (correctPassword === credentials.password) {
