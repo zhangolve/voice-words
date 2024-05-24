@@ -97,11 +97,14 @@ https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 - https://github.com/changhongzi/BNC_COCA_EN2CN?tab=readme-ov-file  词频表，重要性，有些认识即可，有些要重点记忆。
 - potion 有问题，改了句子，语音没有同步做修改。
 - 数据统计,有趣的分析??!!
+- 移动端样式，侧拉菜单效果
 
 # docker build -t .
 
 Build your container: docker build -t nextjs-docker .
 Run your container: docker run -p 3000:3000 nextjs-docker
 
+
+可以使用test/test测试
 
 

@@ -1,9 +1,11 @@
+"use client";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 function Menu() {
   return (
-    <>
-      <div className="flex bg-blue-500 text-white p-4">
+    <div className="flex bg-blue-500 text-white p-4 justify-between">
+      <div>
         <Link href="/" className="mx-2 hover:bg-blue-700 px-2 py-1 rounded">
           Home
         </Link>
@@ -23,7 +25,14 @@ function Menu() {
           test ielts
         </Link>
       </div>
-    </>
+      <Link
+        className="mx-2 hover:bg-blue-700 px-2 py-1 rounded"
+        href="#"
+        onClick={signOut}
+      >
+        Logout
+      </Link>
+    </div>
   );
 }
 

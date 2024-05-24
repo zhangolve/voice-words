@@ -4,16 +4,9 @@ import { exec } from "child_process";
 import pRetry, { AbortError } from "p-retry";
 import fs from "fs";
 import bucket from "../tts/bucket";
+import { setKv } from "@/api/kvUtils";
 
 const filePath = process.env.VERCEL_ENV !== "development" ? `/tmp` : `temp`;
-
-async function setKv(key, value) {
-  await fetch(`${process.env.voice_words_REST_API_URL}/set/${key}/${value}`, {
-    headers: {
-      Authorization: `Bearer ${process.env.voice_words_REST_API_TOKEN}`,
-    },
-  });
-}
 
 function downloadFile(url, destination) {
   return new Promise((resolve, reject) => {
