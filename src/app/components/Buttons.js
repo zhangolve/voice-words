@@ -25,7 +25,6 @@ const Good = ({ onClick }) => {
     >
       <div className="flex flex-col justify-center items-center select-none">
         <div className="text-lg">Good</div>
-        {/* <div className="text-xs font-semibold">38days</div> */}
       </div>
     </div>
   );
@@ -47,8 +46,6 @@ const Easy = ({ onClick }) => {
 };
 
 const Buttons = ({ onRetry, onGood, onMaster }) => {
-  // this is
-
   useEffect(() => {
     const handleKeyDown = (event) => {
       switch (event.keyCode) {
@@ -73,7 +70,7 @@ const Buttons = ({ onRetry, onGood, onMaster }) => {
 
   return (
     <div className="flex items-center mt-4 md:mt-7 w-full sm:ml-0">
-      <Again onClick={onRetry} onPress />
+      <Again onClick={onRetry} />
       {onGood && <Good onClick={onGood} />}
       <Easy onClick={onMaster} />
     </div>

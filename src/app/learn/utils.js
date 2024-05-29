@@ -25,7 +25,7 @@ export const good = async (word, nextPeriod) => {
 };
 
 export const master = async (word) => {
-  const due_date = +new Date() + 9600 * 24 * 60 * 60 * 1000;
+  const due_date = null;
   await fetch("/api/due-date-words", {
     method: "PUT",
     headers: {
