@@ -90,13 +90,11 @@ https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 - 标签页的名字，title,可以修改。
 - 笔记是一个rtf，这样可以放图片。。
 - 单词的关联，联想。。 
-- 暂停的规则，还要加强，有时候语音播放到一半，换单词了，播放还在继续。
 - 调整正确的例句中文翻译。。
-- 自定义快捷键
 - badge， 根据level，不同的颜色。search的时候也标记出来，可以去将原来已经明确记得的单词改成0天。
 - https://github.com/changhongzi/BNC_COCA_EN2CN?tab=readme-ov-file  词频表，重要性，有些认识即可，有些要重点记忆。
 - potion 有问题，改了句子，语音没有同步做修改。
-- 数据统计,有趣的分析??!!
+- 数据统计,有趣的分析??!!是不是有点花里胡哨。。
 - 移动端样式，侧拉菜单效果
 - 或许可以有一个mastered 再次巩固的tab
 
