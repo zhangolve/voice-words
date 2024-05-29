@@ -98,6 +98,7 @@ https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 - potion 有问题，改了句子，语音没有同步做修改。
 - 数据统计,有趣的分析??!!
 - 移动端样式，侧拉菜单效果
+- 或许可以有一个mastered 再次巩固的tab
 
 # docker build -t .
 

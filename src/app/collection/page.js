@@ -41,12 +41,15 @@ export default function HorizontalBars() {
   );
 }
 
-// const Collection = ()=> {
-//     return (
-//       <div>
-//         <h1>Search</h1>
-//       </div>
-//     );
-//   }
+// const Collection = () => {
+//   return (
+//     <div>
+//       <h1>Search</h1>
+//       <span class="bg-blue-600 px-2 py-1 text-xs text-white rounded">
+//         Badge
+//       </span>
+//     </div>
+//   );
+// };
 
 //   export default Collection;
