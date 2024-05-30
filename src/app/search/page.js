@@ -4,15 +4,22 @@ import { useCreateWordExample } from "../utils";
 import SearchBar from "./SearchInput";
 import ReviewCard from "@/components/ReviewCard";
 import { useMySWR } from "@/utils";
+import { usePrevious } from "@/hooks";
 import { good, retry, master, currentWordAtom } from "../learn/utils";
 import Buttons from "@/components/Buttons";
 
+/*
+
+由于没有把例句的中文翻译存储到数据库中,则如果改变了例句内容,则翻译就找不到了,我们的翻译是undefined,这是显然不对的. 所以我们需要重新生成翻译,又会有新的问题.
+
+*/
 export default function Search() {
   const [word, setWord] = useState("");
   const inputRef = useRef(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
+  const prevAudioContent = usePrevious(data?.word + data?.sentence);
   const {
     data: example,
     error,
@@ -67,10 +74,13 @@ export default function Search() {
         .catch((err) => console.log(err));
     };
 
-    if (data?.word && !data?.audio) {
+    // audio文本 和 sentence 文本不一致,也要重新生成
+    console.log(prevAudioContent, data?.word + data?.sentence);
+    // if (data?.word && prevAudioContent !== data?.word + data?.sentence) {
+    if (data?.word && !data.audio) {
       createTTS();
     }
-  }, [data]);
+  }, [data, prevAudioContent]);
 
   useEffect(() => {
     if (example?.word) {
