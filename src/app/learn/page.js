@@ -51,7 +51,7 @@ const Review = () => {
     setWords(words.slice(1));
   };
 
-  const onGood = currentWord.nextPeriod
+  const onGood = currentWord?.nextPeriod
     ? async () => {
         await good(currentWord.word, currentWord.nextPeriod);
         setWords(words.slice(1));
