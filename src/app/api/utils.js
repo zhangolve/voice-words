@@ -31,7 +31,7 @@ const formatTranslation = (data) => {
 export async function translate(userPrompt) {
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
   const model = genAI.getGenerativeModel({
-    model: "gemini-pro",
+    model: "gemini-1.5-flash",
     generationConfig: { maxOutputTokens: 200 },
   });
   try {
