@@ -6,7 +6,8 @@ export async function GET(req) {
   try {
     const { word: sqlWord } = Object.fromEntries(req.nextUrl.searchParams);
     if (sqlWord) {
-      const word = await sql`select * from words where word = ${sqlWord}`;
+      const toLowerCaseSqlWord = sqlWord.trim().toLowerCase();
+      const word = await sql`select * from words where word=${toLowerCaseSqlWord}`;
       return NextResponse.json({ word: word.rows[0] }, { status: 200 });
     } else {
       const words = await sql`select * from words`;
