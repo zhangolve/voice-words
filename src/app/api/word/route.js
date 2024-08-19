@@ -21,7 +21,7 @@ export async function GET(req) {
 export async function PUT(req) {
   const reqBody = await req.json();
   const { word: rawWord, sentence, note, translations } = reqBody;
-  const word = rawWord.trim();
+  const word = rawWord.trim().toLowerCase;
   try {
     const previousResult = await sql`select * from words where word = ${word} `;
     const previousData = previousResult.rows[0];
@@ -49,7 +49,7 @@ export async function POST(req) {
     audio,
     pronunciation,
   } = reqBody;
-  const word = rawWord.trim();
+  const word = rawWord.trim().toLowerCase();
   const due_date = +new Date();
   try {
     await sql`insert into words (word, sentence, note, translations, audio, Due_date, Period,pronunciation) VALUES (${word}, ${sentence}, ${note}, ${translations}, ${audio}, ${due_date}, 1, ${pronunciation})`;
