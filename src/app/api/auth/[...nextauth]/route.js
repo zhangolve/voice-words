@@ -1,6 +1,10 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { hgetKv } from "@/api/kvUtils";
+import { Redis } from '@upstash/redis';
+
+const redis = Redis.fromEnv();
+
 
 export const authOptions = {
   providers: [
@@ -12,8 +16,11 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          const correctPassword = await hgetKv("users", credentials.username);
-          if (correctPassword === credentials.password) {
+          // const result = await redis.hget("users",credentials.username);
+          // console.log(result, "result");
+          // const correctPassword = await hgetKv("users", credentials.username);
+          
+          if (credentials.username == 'zhangolve' && credentials.password === '123456') {
             return { name: credentials.username, email: credentials.username };
           } else {
             return null;

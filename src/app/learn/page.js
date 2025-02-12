@@ -4,6 +4,7 @@ import ReviewCard from "../components/ReviewCard";
 import Buttons from "../components/Buttons";
 import { good, retry, master, currentWordAtom } from "./utils";
 import { useAtom } from "jotai";
+import ExportButton from "./ExportBtn";
 
 const Review = () => {
   const [words, setWords] = useState([]);
@@ -63,8 +64,11 @@ const Review = () => {
     setWords(words.slice(1));
   };
 
+  console.log(words,'words')
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <ExportButton words={words}/>
       {currentWord && (
         <div className="review">
           <ReviewCard

@@ -22,7 +22,7 @@ export async function GET(req) {
 export async function PUT(req) {
   const reqBody = await req.json();
   const { word: rawWord, sentence, note, translations } = reqBody;
-  const word = rawWord.trim().toLowerCase;
+  const word = rawWord.trim().toLowerCase();
   try {
     const previousResult = await sql`select * from words where word = ${word} `;
     const previousData = previousResult.rows[0];
