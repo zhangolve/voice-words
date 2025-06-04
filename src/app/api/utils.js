@@ -1,6 +1,9 @@
 import { sql } from "@vercel/postgres";
 import fs from "fs";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+// import { GoogleGenerativeAI } from "@google/generative-ai";
+
+import {GoogleGenAI as GoogleGenerativeAI } from '@google/genai';
+
 
 const exampleJSON = JSON.stringify({
   word: "acclimated",
@@ -29,15 +32,15 @@ const formatTranslation = (data) => {
 };
 
 export async function translate(userPrompt) {
-  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-  const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
-    generationConfig: { maxOutputTokens: 200 },
-  });
+  const genAI = new GoogleGenerativeAI({apiKey:process.env.GOOGLE_API_KEY});
   try {
-    const result = await model.generateContent(userPrompt);
-    const response = await result.response;
-    const text = response.text();
+    const response = await genAI.models.generateContent({
+      model: "gemini-2.5-flash-preview-05-20",
+      // model: 'gemini-2.0-flash-001',
+      contents: userPrompt
+    });
+    const text = response.text;
+    console.log(text, "text");
     return text;
   } catch (error) {
     return null;

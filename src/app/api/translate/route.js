@@ -6,6 +6,7 @@ export async function POST(req) {
   const reqBody = await req.json();
   const { userPrompt } = reqBody;
   const text = await translate(userPrompt);
+  console.log(text, "text");
   if (text) {
     return NextResponse.json({
       text,

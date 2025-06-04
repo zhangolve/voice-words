@@ -44,6 +44,10 @@ const Review = () => {
   }, []);
 
   useEffect(() => {
+    if (!words?.length) {
+      setCurrentWord(null);
+      return;
+    }
     setCurrentWord(words[0]);
   }, [setCurrentWord, words]);
 
