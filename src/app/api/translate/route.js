@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { translate } from "../utils";
 
 export async function POST(req) {
+  console.log(req, "req");
   const reqBody = await req.json();
   const { userPrompt } = reqBody;
   const text = await translate(userPrompt);

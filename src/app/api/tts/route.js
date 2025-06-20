@@ -82,6 +82,7 @@ const textToSpeech = async (key, region, text, filename) => {
 };
 
 export async function POST(req) {
+  console.log("Received request for TTS");
   const reqBody = await req.json();
   const { text, word } = reqBody;
   const key = process.env.AZURE_KEY;
@@ -100,6 +101,7 @@ export async function POST(req) {
     undefined,
     "audio/mpeg",
   );
+
   return NextResponse.json(blob);
 }
 
