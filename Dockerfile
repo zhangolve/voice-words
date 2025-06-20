@@ -6,6 +6,7 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat python3 make g++
 RUN npm config set registry https://registry.npmjs.org/
 RUN npm config set fetch-timeout 600000
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
 
