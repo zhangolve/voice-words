@@ -95,35 +95,35 @@ export async function createNewTts(query) {
         userPrompt: `翻译这个句子为中文：${query.sentence}`,
       }),
     });
-    // if (!res.ok) {
+    if (!res.ok) {
     console.error(`Translation API error: ${res.status} ${res.statusText}`);
     const errorText = await res.text();
     console.error(`Response body: ${errorText}...`);
     throw new Error(`Translation API returned error: ${res.status}`);
-    // }
+    }
     const data = await res.json();
     translation = data.text;
   }
-  // console.log(translation, "translation");
-  // const ttsRes = await fetch(process.env.URL + "/api/tts", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     text: {
-  //       english: `${query.word}, ${query.word}, ${query.sentence}`,
-  //       chinese: `${translation}`,
-  //     },
-  //     word: query.word,
-  //   }),
-  // });
-  // if (!ttsRes.ok) {
-  //   console.error(`TTS API error: ${ttsRes.status} ${ttsRes.statusText}`);
-  //   const errorText = await ttsRes.text();
-  //   console.error(`Response body: ${errorText.substring(0, 200)}...`);
-  //   throw new Error(`TTS API returned error: ${ttsRes.status}`);
-  // }
-  // const ttsData = await ttsRes.json();
-  // await sql`UPDATE words SET audio = ${ttsData.objectKey} WHERE word = ${query.word};`;
+  console.log(translation, "translation");
+  const ttsRes = await fetch(process.env.URL + "/api/tts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      text: {
+        english: `${query.word}, ${query.word}, ${query.sentence}`,
+        chinese: `${translation}`,
+      },
+      word: query.word,
+    }),
+  });
+  if (!ttsRes.ok) {
+    console.error(`TTS API error: ${ttsRes.status} ${ttsRes.statusText}`);
+    const errorText = await ttsRes.text();
+    console.error(`Response body: ${errorText.substring(0, 200)}...`);
+    throw new Error(`TTS API returned error: ${ttsRes.status}`);
+  }
+  const ttsData = await ttsRes.json();
+  await sql`UPDATE words SET audio = ${ttsData.objectKey} WHERE word = ${query.word};`;
 }
