@@ -92,7 +92,7 @@ export async function createNewTts(query) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userPrompt: `翻译这个句子为中文：${query.sentence}`,
+        userPrompt: `如果中文翻译有多种可能的翻译，只翻译其中一种即可。翻译这个句子为中文：${query.sentence}`,
       }),
     });
     if (!res.ok) {
