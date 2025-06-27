@@ -62,7 +62,7 @@ export async function GET() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            userPrompt: `给出这个单词${query.word}的音标，中文翻译，给出一个英文例句和他的例句中文翻译，以json的形式返回,输出格式为 ${exampleJSON}`,
+            userPrompt: `给出这个单词${query.word}的音标，中文翻译，给出一个英文例句和他的例句中文翻译，如果中文翻译有多种可能的翻译，只翻译其中一种即可。以json的形式返回,输出格式为 ${exampleJSON}`,
           }),
         });
         const rawData = await res.json();

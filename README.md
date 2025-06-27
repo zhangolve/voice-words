@@ -103,6 +103,7 @@ https://github.com/TeaByte/telegram-auth-nextjs 集成telegram 。。
 Build your container: docker build -t nextjs-docker .
 Run your container: docker run -p 3000:3000 nextjs-docker
 
+add .env docker
 
 可以使用test/test测试
 
